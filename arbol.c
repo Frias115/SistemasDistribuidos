@@ -1,4 +1,4 @@
-
+#include <string.h>
 
 Arbol* inicializarArbol(){
 
@@ -14,6 +14,7 @@ Arbol* inicializarArbol(){
 	nodoPadre.nivel = 0;
 	nodoPadre.esDirectorio = true;
 	nodoPadre.padre = NULL;
+	nodoPadre.hijos = new list<Nodo*>();
 
 	elArbol.root = nodoPadre;
 	elArbol.ultimoID = nodoPadre.ID;
@@ -39,6 +40,10 @@ Nodo* addChild(char nombreNodo[25], bool directorio, Arbol* arbol){
 		//nodo* hijos;
 		//unsigned int numeroHijosMaximo
 
+		arbol.directorioActual.hijos.push_back(nuevoNodo)
+
+		arbol.ultimoID++;
+
 		return nuevoNodo;
 	}
 
@@ -47,11 +52,9 @@ Nodo* addChild(char nombreNodo[25], bool directorio, Arbol* arbol){
 
 Nodo* findChild(char nombreABuscar[25], Arbol* arbol){
 
-	int tamanoHijos = sizeof(arbol.directorioActual.hijos)/sizeof(int); // int seria el tamaño de los hijos
+	for(std::list<Nodo*>::iterator i = arbol->directorioActual->hijos->begin(); i != arbol.directorioActual.hijos.end(); i++){
 
-	for(int i = 0;i<tamanoHijos;i++){
-
-		if(arbol.directorioActual.hijos[i].nombre == nombreABuscar)	return arbol.directorioActual.hijos[i];
+		if(strncmp ((*i)->nombre, nombreABuscar, 25) == 0 )	return (*i);
 		
 	}
 
@@ -59,16 +62,16 @@ Nodo* findChild(char nombreABuscar[25], Arbol* arbol){
 
 }
 
-void updateChild(Arbol* arbol, char nombreABuscar[25],char nuevoNombre[25], off_t nuevoTamano, time_t nuevaUltimaModificacion){
+void updateChild(Arbol* arbol, char nombreABuscar[25],char nuevoNombre[25]/*, off_t nuevoTamano, time_t nuevaUltimaModificacion*/){
 
 	Nodo* nodoAActualizar;
 
 	nodoAActualizar = arbol.findChild(nombreABuscar, arbol);
 
-	if(nodoAActualizar == NULL){
+	if(nodoAActualizar != NULL){
 			nodoAActualizar.nombre = nuevoNombre;
-			nodoAActualizar.tamano = nuevoTamano;
-			nodoAActualizar.ultimaModificacion = nuevaUltimaModificacion;
+			//nodoAActualizar.tamano = nuevoTamano;
+			//nodoAActualizar.ultimaModificacion = nuevaUltimaModificacion;
 	}
 }
 
@@ -78,16 +81,15 @@ void removeChild(char nombreABuscar[25], Arbol* arbol){
 
 	nodoAEliminar = arbol.findChild(nombreABuscar, arbol);
 
-	int tamanoHijos = sizeof(nodoAEliminar.hijos)/sizeof(int); // int seria el tamaño de los hijos
-
 	//Si es directorio y no tiene hijos
-	if((nodoAEliminar.esDirectorio && nodoAEliminar.hijos == NULL) || !nodoAEliminar.esDirectorio){
+	if((nodoAEliminar.esDirectorio && nodoAEliminar.hijos.empty()) || !nodoAEliminar.esDirectorio){
 
 		arbol.numeroNodos--;
 
-		nodo* nodoPadre = nodoAEliminar.padre;
+		Nodo* nodoPadre = nodoAEliminar.padre;
 
-		nodoPadre
+		nodoPadre.hijos.remove(nodoAEliminar);
+
 
 	}
 }

@@ -1,4 +1,4 @@
-
+#include <list>
 
 #ifndef NODO 
 #define NODO
@@ -13,7 +13,7 @@ typedef struct Nodo{
 	off_t tamano;
 	time_t ultimaModificacion;
 	nodo* padre;
-	nodo* hijos;
+	std::list<Nodo*> *hijos;
 	unsigned int numeroHijosMaximo;
 
 }Nodo;
