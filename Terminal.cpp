@@ -144,10 +144,21 @@ void Terminal::exit(Arbol *elArbol) {
 
     int nameLength=elArbol->directorioActual->nombre.size();
     const char* filename=elArbol->directorioActual->nombre.c_str();
+
+    int idLength=sizeof(elArbol->directorioActual->id);
+
     int nhijos=elArbol->directorioActual->hijos->size();
+
     FILE* arbolBinario=fopen("arbolBinario.bin", "w");
+
+    //Size del nombre y nombre
     fwrite(&nameLength,sizeof(int),1,arbolBinario);
     fwrite(filename,sizeof(char),nameLength,arbolBinario);
+
+    //Size de id e id
+    fwrite(&nameLength,sizeof(int),1,arbolBinario);
+    fwrite(filename,sizeof(char),nameLength,arbolBinario);
+
     fwrite(&nhijos,sizeof(int),1,arbolBinario);
 
     /*for(nhijos)

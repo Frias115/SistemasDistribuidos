@@ -16,14 +16,14 @@ public:
 
 	string nombre;
 	//Arbol* elArbol;
-	unsigned int id;
-	unsigned int nivel;
+	int id;
+	int nivel;
 	bool esDirectorio;
 	off_t tamano;
 	time_t ultimaModificacion;
 	Nodo* padre;
 	list<Nodo*> *hijos;
-	unsigned int numeroHijosMaximo;
+	//unsigned int numeroHijosMaximo;
 
 	
 };
