@@ -1,0 +1,1 @@
+Disco.d: ../Disco.cpp
