@@ -133,9 +133,26 @@ void Terminal::rm(string ficheroAEliminar, Arbol *elArbol) {
 
 void Terminal::exit(Arbol *elArbol) {
 
-    ofstream arbolBinario("arbolBinario.bin", ios::out | ios::binary | ios::app);
-    arbolBinario.write(reinterpret_cast<const char*>(elArbol->directorioActual), sizeof (Nodo));
-    arbolBinario.close();
+    //ofstream arbolBinario("arbolBinario.bin", ios::out | ios::binary | ios::app);
+   // arbolBinario.write(reinterpret_cast<const char*>(elArbol->directorioActual), sizeof (Nodo));
+/*
+    int nameLength=elArbol->directorioActual->nombre.size();
+    arbolBinario.write((char*)&(nameLength), sizeof (int));
+    arbolBinario.write((char*)(elArbol->directorioActual->nombre.c_str()), elArbol->directorioActual->nombre.size());
+
+    arbolBinario.close();*/
+
+    int nameLength=elArbol->directorioActual->nombre.size();
+    const char* filename=elArbol->directorioActual->nombre.c_str();
+    int nhijos=elArbol->directorioActual->hijos->size();
+    FILE* arbolBinario=fopen("arbolBinario.bin", "w");
+    fwrite(&nameLength,sizeof(int),1,arbolBinario);
+    fwrite(filename,sizeof(char),nameLength,arbolBinario);
+    fwrite(&nhijos,sizeof(int),1,arbolBinario);
+
+    /*for(nhijos)
+        escribenodorecursiva(hijo);*/
+
 
 }
 
