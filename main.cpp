@@ -25,9 +25,13 @@ int main(){
 	terminal->ls(nuevoarbol);
 	terminal->rmdir("hola",nuevoarbol);
 	terminal->ls(nuevoarbol);
-	terminal->rm("prueba",nuevoarbol);
+	//terminal->rm("prueba",nuevoarbol);
 	terminal->ls(nuevoarbol);
 	terminal->exit(nuevoarbol);
+
+	/*Terminal* terminal = new Terminal();
+	Arbol* nuevoArbol = terminal->cargar();
+	terminal->ls(nuevoArbol);*/
 
 
 

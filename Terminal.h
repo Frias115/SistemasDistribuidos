@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <fstream>
+#include <stdlib.h>
 using namespace std;
 
 #ifndef TERMINAL
@@ -51,6 +52,18 @@ public:
 
     //Guarda all el sistema de ficheros en un archivo binario
     void exit(Arbol* elArbol);
+
+    //Recorre el arbol y va guardando en el fichero todos los nodos
+    void recorrerArbolRecursivo(Arbol* elArbol);
+
+    //Escribe un nodo
+    void escribeNodoRecursiva(Nodo* nodo);
+
+    //Carga el arbol
+    Arbol* cargar();
+
+    //Carga un nodo
+    Nodo* cargarNodoRecursiva(Arbol* elArbol);
 
 
 

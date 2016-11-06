@@ -14,7 +14,6 @@ Arbol::Arbol(){
 	nodoPadre->nivel = 0;
 	nodoPadre->esDirectorio = true;
 	nodoPadre->padre = NULL;
-	nodoPadre->hijos = new list<Nodo*>();
 
 	this->root = nodoPadre;
 	this->ultimoID = nodoPadre->id;
@@ -35,7 +34,6 @@ Nodo* Arbol::addChild(string nombreNodo, bool directorio){
 		//off_t tamano;
 		//time_t ultimaModificacion;
 		nuevoNodo->padre = directorioActual;
-		nuevoNodo->hijos = new list<Nodo*>();
 		//unsigned int numeroHijosMaximo
 
 		directorioActual->hijos->push_back(nuevoNodo);

@@ -141,11 +141,18 @@ void Terminal::exit(Arbol *elArbol) {
     arbolBinario.write((char*)(elArbol->directorioActual->nombre.c_str()), elArbol->directorioActual->nombre.size());
 
     arbolBinario.close();*/
-
+    elArbol->directorioActual = elArbol->root;
     int nameLength=elArbol->directorioActual->nombre.size();
     const char* filename=elArbol->directorioActual->nombre.c_str();
 
     int idLength=sizeof(elArbol->directorioActual->id);
+    int idFile= elArbol->directorioActual->id;
+
+    int nivelLength = sizeof(elArbol->directorioActual->nivel);
+    int nivelFile = elArbol->directorioActual->nivel;
+
+    int esDirectorioLength = sizeof(elArbol->directorioActual->esDirectorio);
+    bool esDirectorioFile = elArbol->directorioActual->esDirectorio;
 
     int nhijos=elArbol->directorioActual->hijos->size();
 
@@ -156,13 +163,168 @@ void Terminal::exit(Arbol *elArbol) {
     fwrite(filename,sizeof(char),nameLength,arbolBinario);
 
     //Size de id e id
+    fwrite(&idLength,sizeof(int),1,arbolBinario);
+    fwrite((const void*)&idFile,sizeof(char),idLength,arbolBinario);
+
+    //Size de nivel y nivel
+    fwrite(&nivelLength,sizeof(int),1,arbolBinario);
+    fwrite((const void*)&nivelFile,sizeof(char),nivelLength,arbolBinario);
+
+    //Size de esDirectorio y esDirectorio
+    fwrite(&esDirectorioLength,sizeof(int),1,arbolBinario);
+    fwrite((const void*)&esDirectorioFile,sizeof(char),esDirectorioLength,arbolBinario);
+
+    fwrite(&nhijos,sizeof(int),1,arbolBinario);
+    fclose(arbolBinario);
+    for(std::list<Nodo*>::iterator i = elArbol->directorioActual->hijos->begin(); i != elArbol->directorioActual->hijos->end(); i++){
+
+        escribeNodoRecursiva((*i));
+
+    }
+
+
+
+}
+
+void Terminal::recorrerArbolRecursivo(Arbol *elArbol) {
+
+
+
+
+
+}
+
+void Terminal::escribeNodoRecursiva(Nodo *nodo) {
+
+
+
+    int nameLength=nodo->nombre.size();
+    const char* filename=nodo->nombre.c_str();
+
+    int idLength=sizeof(nodo->id);
+    int idFile= nodo->id;
+
+    int nivelLength = sizeof(nodo->nivel);
+    int nivelFile = nodo->nivel;
+
+    int esDirectorioLength = sizeof(nodo->esDirectorio);
+    bool esDirectorioFile = nodo->esDirectorio;
+
+    int nhijos=nodo->hijos->size();
+
+    FILE* arbolBinario=fopen("arbolBinario.bin", "a");
+
+    //Size del nombre y nombre
     fwrite(&nameLength,sizeof(int),1,arbolBinario);
     fwrite(filename,sizeof(char),nameLength,arbolBinario);
 
-    fwrite(&nhijos,sizeof(int),1,arbolBinario);
+    //Size de id e id
+    fwrite(&idLength,sizeof(int),1,arbolBinario);
+    fwrite((const void*)&idFile,sizeof(char),idLength,arbolBinario);
 
-    /*for(nhijos)
-        escribenodorecursiva(hijo);*/
+    //Size de nivel y nivel
+    fwrite(&nivelLength,sizeof(int),1,arbolBinario);
+    fwrite((const void*)&nivelFile,sizeof(char),nivelLength,arbolBinario);
+
+    //Size de esDirectorio y esDirectorio
+    fwrite(&esDirectorioLength,sizeof(int),1,arbolBinario);
+    fwrite((const void*)&esDirectorioFile,sizeof(char),esDirectorioLength,arbolBinario);
+
+    fwrite(&nhijos,sizeof(int),1,arbolBinario);
+    fclose(arbolBinario);
+
+    for(std::list<Nodo*>::iterator i = nodo->hijos->begin(); i != nodo->hijos->end(); i++){
+
+        escribeNodoRecursiva((*i));
+
+    }
+
+}
+
+Arbol* Terminal::cargar() {
+
+
+    FILE* arbolBinario=fopen("arbolBinario.bin", "r");
+    Arbol* arbol = new Arbol();
+    //Size del nombre y nombre
+    int nameLength;
+    fread(&nameLength,sizeof(int),1,arbolBinario);
+    fread(&arbol->directorioActual->nombre,sizeof(char),nameLength,arbolBinario);
+
+    //Size de id e id
+    int idLength;
+    fread(&idLength,sizeof(int),1,arbolBinario);
+    fread(&arbol->directorioActual->id,sizeof(char),idLength,arbolBinario);
+
+    //Size de nivel y nivel
+    int nivelLength;
+    fread(&nivelLength,sizeof(int),1,arbolBinario);
+    fread(&arbol->directorioActual->nivel,sizeof(char),nivelLength,arbolBinario);
+
+    //Size de esDirectorio y esDirectorio
+    int esDirectorioLength;
+    fread(&esDirectorioLength,sizeof(int),1,arbolBinario);
+    fread(&arbol->directorioActual->esDirectorio,sizeof(char),esDirectorioLength,arbolBinario);
+
+    int nhijos;
+    fread(&nhijos,sizeof(int),1,arbolBinario);
+    fclose(arbolBinario);
+    for(int i=0;i<nhijos; i++){
+
+        arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol));
+
+    }
+
+    arbol->directorioActual = arbol->root;
+    return arbol;
+
+}
+
+Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol) {
+
+
+
+    FILE* arbolBinario=fopen("arbolBinario.bin", "a+");
+
+    Nodo* nodo = new Nodo();
+
+    nodo->padre = arbol->directorioActual;
+
+    //Size del nombre y nombre
+    int nameLength;
+    fread(&nameLength,sizeof(int),1,arbolBinario);
+    fread(&nodo->nombre,sizeof(char),nameLength,arbolBinario);
+
+    //Size de id e id
+    int idLength;
+    fread(&idLength,sizeof(int),1,arbolBinario);
+    fread(&nodo->id,sizeof(char),idLength,arbolBinario);
+
+    //Size de nivel y nivel
+    int nivelLength;
+    fread(&nivelLength,sizeof(int),1,arbolBinario);
+    fread(&nodo->nivel,sizeof(char),nivelLength,arbolBinario);
+
+    //Size de esDirectorio y esDirectorio
+    int esDirectorioLength;
+    fread(&esDirectorioLength,sizeof(int),1,arbolBinario);
+    fread(&nodo->esDirectorio,sizeof(char),esDirectorioLength,arbolBinario);
+
+    //Si el nodo es un directorio cambiamos el directorio actual del arbol
+    if(nodo->esDirectorio) arbol->directorioActual = nodo;
+
+    int nhijos;
+    fread(&nhijos,sizeof(int),1,arbolBinario);
+    fclose(arbolBinario);
+    for(int i=0;i<nhijos; i++){
+
+        arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol));
+
+    }
+
+
+    return nodo;
+
 
 
 }

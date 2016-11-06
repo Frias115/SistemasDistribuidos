@@ -13,7 +13,7 @@ class Nodo
 {
 
 public:
-
+	Nodo();
 	string nombre;
 	//Arbol* elArbol;
 	int id;
