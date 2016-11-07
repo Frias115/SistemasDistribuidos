@@ -17,8 +17,6 @@ using namespace std;
 class Terminal{
 public:
 
-
-
     //Lista los hijos correspondientes al directorio actual
     void ls (Arbol* elArbol);
 
@@ -50,21 +48,21 @@ public:
     //Elimina un nodo fichero
     void rm(string ficheroAEliminar,Arbol* elArbol);
 
-    //Guarda all el sistema de ficheros en un archivo binario
+
+    //Guarda el nodo root del arbol y llama a su metodo recursivo
     void exit(Arbol* elArbol);
 
-    //Recorre el arbol y va guardando en el fichero todos los nodos
-    void recorrerArbolRecursivo(Arbol* elArbol);
 
-    //Escribe un nodo
+    //Guarda los nodos del arbol de manera recusiva
     void escribeNodoRecursiva(Nodo* nodo);
 
-    //Carga el arbol
+
+    //Carga el nodo root al arbol y llamam a su metodo recursivo
     Arbol* cargar();
 
-    //Carga un nodo
-    Nodo* cargarNodoRecursiva(Arbol* elArbol);
 
+    //Carga los nodos al arbol de manera recursiva
+    Nodo* cargarNodoRecursiva(Arbol* elArbol, FILE* arbolBinario);
 
 
 };

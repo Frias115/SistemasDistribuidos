@@ -9,14 +9,13 @@
 using namespace std;
 
 int main(){
-
-	Arbol* nuevoarbol = new Arbol();
-	nuevoarbol->addChild("documentos", true);
-	nuevoarbol->addChild("prueba", false);
+	//Arbol* nuevoarbol = new Arbol();
+	//nuevoarbol->addChild("documentos", true);
+	//nuevoarbol->addChild("prueba", false);
 	//nuevoarbol->removeChild("documentos");
 	/*for (list<Nodo*>::iterator it=nuevoarbol->directorioActual->hijos->begin(); it != nuevoarbol->directorioActual->hijos->end(); ++it)
     cout << ' ' << (*it)->nombre;*/
-
+	/*
 	Terminal* terminal = new Terminal();
 	terminal->ls(nuevoarbol);
 	terminal->pwd(nuevoarbol);
@@ -28,10 +27,12 @@ int main(){
 	//terminal->rm("prueba",nuevoarbol);
 	terminal->ls(nuevoarbol);
 	terminal->exit(nuevoarbol);
+	*/
 
-	/*Terminal* terminal = new Terminal();
+	Terminal* terminal = new Terminal();
 	Arbol* nuevoArbol = terminal->cargar();
-	terminal->ls(nuevoArbol);*/
+
+	terminal->ls(nuevoArbol);
 
 
 

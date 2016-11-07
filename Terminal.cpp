@@ -134,8 +134,8 @@ void Terminal::rm(string ficheroAEliminar, Arbol *elArbol) {
 void Terminal::exit(Arbol *elArbol) {
 
     //ofstream arbolBinario("arbolBinario.bin", ios::out | ios::binary | ios::app);
-   // arbolBinario.write(reinterpret_cast<const char*>(elArbol->directorioActual), sizeof (Nodo));
-/*
+    // arbolBinario.write(reinterpret_cast<const char*>(elArbol->directorioActual), sizeof (Nodo));
+	/*
     int nameLength=elArbol->directorioActual->nombre.size();
     arbolBinario.write((char*)&(nameLength), sizeof (int));
     arbolBinario.write((char*)(elArbol->directorioActual->nombre.c_str()), elArbol->directorioActual->nombre.size());
@@ -145,13 +145,13 @@ void Terminal::exit(Arbol *elArbol) {
     int nameLength=elArbol->directorioActual->nombre.size();
     const char* filename=elArbol->directorioActual->nombre.c_str();
 
-    int idLength=sizeof(elArbol->directorioActual->id);
+    int idLength=sizeof(int);
     int idFile= elArbol->directorioActual->id;
 
-    int nivelLength = sizeof(elArbol->directorioActual->nivel);
+    int nivelLength = sizeof(int);
     int nivelFile = elArbol->directorioActual->nivel;
 
-    int esDirectorioLength = sizeof(elArbol->directorioActual->esDirectorio);
+    int esDirectorioLength = sizeof(bool);
     bool esDirectorioFile = elArbol->directorioActual->esDirectorio;
 
     int nhijos=elArbol->directorioActual->hijos->size();
@@ -186,28 +186,18 @@ void Terminal::exit(Arbol *elArbol) {
 
 }
 
-void Terminal::recorrerArbolRecursivo(Arbol *elArbol) {
-
-
-
-
-
-}
-
-void Terminal::escribeNodoRecursiva(Nodo *nodo) {
-
-
+void Terminal::escribeNodoRecursiva(Nodo* nodo) {
 
     int nameLength=nodo->nombre.size();
     const char* filename=nodo->nombre.c_str();
 
-    int idLength=sizeof(nodo->id);
+    int idLength=sizeof(int);
     int idFile= nodo->id;
 
-    int nivelLength = sizeof(nodo->nivel);
+    int nivelLength = sizeof(int);
     int nivelFile = nodo->nivel;
 
-    int esDirectorioLength = sizeof(nodo->esDirectorio);
+    int esDirectorioLength = sizeof(bool);
     bool esDirectorioFile = nodo->esDirectorio;
 
     int nhijos=nodo->hijos->size();
@@ -249,8 +239,10 @@ Arbol* Terminal::cargar() {
     //Size del nombre y nombre
     int nameLength;
     fread(&nameLength,sizeof(int),1,arbolBinario);
-    fread(&arbol->directorioActual->nombre,sizeof(char),nameLength,arbolBinario);
-
+    char nombre[nameLength + 1];
+    nombre[nameLength + 1] = '\0';
+    fread(nombre,sizeof(char),nameLength,arbolBinario);
+    arbol->directorioActual->nombre = nombre;
     //Size de id e id
     int idLength;
     fread(&idLength,sizeof(int),1,arbolBinario);
@@ -268,23 +260,22 @@ Arbol* Terminal::cargar() {
 
     int nhijos;
     fread(&nhijos,sizeof(int),1,arbolBinario);
-    fclose(arbolBinario);
+
     for(int i=0;i<nhijos; i++){
 
-        arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol));
+        arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol, arbolBinario));
 
     }
-
+    fclose(arbolBinario);
     arbol->directorioActual = arbol->root;
+
     return arbol;
 
 }
 
-Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol) {
+Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
 
-
-    FILE* arbolBinario=fopen("arbolBinario.bin", "a+");
 
     Nodo* nodo = new Nodo();
 
@@ -293,7 +284,10 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol) {
     //Size del nombre y nombre
     int nameLength;
     fread(&nameLength,sizeof(int),1,arbolBinario);
-    fread(&nodo->nombre,sizeof(char),nameLength,arbolBinario);
+    char nom[nameLength + 1];
+    nom[nameLength + 1] = '\0';
+    fread(nom,sizeof(char),nameLength,arbolBinario);
+    arbol->directorioActual->nombre = nom;
 
     //Size de id e id
     int idLength;
@@ -315,22 +309,18 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol) {
 
     int nhijos;
     fread(&nhijos,sizeof(int),1,arbolBinario);
-    fclose(arbolBinario);
     for(int i=0;i<nhijos; i++){
 
-        arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol));
+        arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol, arbolBinario));
 
     }
 
-
     return nodo;
-
-
 
 }
 
 
-
+//Upload y download aplicar el disco, es la segunda parte e implemntar el disco, ver la hoja que nos hizo Marcos
 
 
 
