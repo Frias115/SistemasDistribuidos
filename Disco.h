@@ -1,14 +1,25 @@
+#pragma once
+#include <list>
+#include <string>
+#include <iostream>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <fstream>
+#include <stdlib.h>
+using namespace std;
 
 #ifndef DISCO 
 #define DISCO
 
-typedef struct Disco{
-
-	/*
-			
-	*/
+class Disco{
+public:
 
 
-}Disco;
+	void writeFile(char* datos);
+	char* readFile();
+	void writeBlock(char* datos, int idBloque);
+	char* readBlock(int idBloque);
+
+};
 
 #endif

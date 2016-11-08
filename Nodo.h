@@ -25,6 +25,8 @@ public:
 	list<Nodo*> *hijos;
 	//unsigned int numeroHijosMaximo;
 
+	list<int> *bloquesUsados;
+	int sizeNodo;
 	
 };
 

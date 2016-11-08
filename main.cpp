@@ -31,11 +31,7 @@ int main(){
 
 	Terminal* terminal = new Terminal();
 	Arbol* nuevoArbol = terminal->cargar();
-
 	terminal->ls(nuevoArbol);
-
-
-
 
 
 	return 0;

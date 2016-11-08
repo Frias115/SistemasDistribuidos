@@ -240,7 +240,7 @@ Arbol* Terminal::cargar() {
     int nameLength;
     fread(&nameLength,sizeof(int),1,arbolBinario);
     char nombre[nameLength + 1];
-    nombre[nameLength + 1] = '\0';
+    nombre[nameLength] = '\0';
     fread(nombre,sizeof(char),nameLength,arbolBinario);
     arbol->directorioActual->nombre = nombre;
     //Size de id e id
@@ -275,9 +275,12 @@ Arbol* Terminal::cargar() {
 
 Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
+	arbol->ultimoID++;
+	arbol->numeroNodos++;
 
 
     Nodo* nodo = new Nodo();
+    Nodo* nodoAux = arbol->directorioActual;
 
     nodo->padre = arbol->directorioActual;
 
@@ -285,9 +288,9 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
     int nameLength;
     fread(&nameLength,sizeof(int),1,arbolBinario);
     char nom[nameLength + 1];
-    nom[nameLength + 1] = '\0';
+    nom[nameLength] = '\0';
     fread(nom,sizeof(char),nameLength,arbolBinario);
-    arbol->directorioActual->nombre = nom;
+    nodo->nombre = nom;
 
     //Size de id e id
     int idLength;
@@ -315,10 +318,19 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
     }
 
+    arbol->directorioActual = nodoAux;
+
     return nodo;
 
 }
 
+void Terminal::format(int size){
+
+	FILE* disco1=fopen("disco1.dat", "w");
+
+	fseek(disco1,);
+
+}
 
 //Upload y download aplicar el disco, es la segunda parte e implemntar el disco, ver la hoja que nos hizo Marcos
 

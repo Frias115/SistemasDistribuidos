@@ -1,6 +1,7 @@
 #pragma once
 #include "Arbol.h"
 #include "Nodo.h"
+#include "Disco.h"
 #include <list>
 #include <string>
 #include <iostream>
@@ -64,6 +65,8 @@ public:
     //Carga los nodos al arbol de manera recursiva
     Nodo* cargarNodoRecursiva(Arbol* elArbol, FILE* arbolBinario);
 
+    //Inicializa los .dat del disco
+    void format(int size);
 
 };
 

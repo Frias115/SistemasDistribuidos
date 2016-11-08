@@ -14,7 +14,7 @@ public:
 
 	int numeroNodos;
 	Nodo* root;
-	unsigned int ultimoID;
+	int ultimoID;
 	Nodo* directorioActual;
 
 
