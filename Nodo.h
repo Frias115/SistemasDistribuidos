@@ -27,7 +27,7 @@ public:
 
 	list<int> *bloquesUsados;
 	int sizeNodo;
-	
+
 };
 
 #endif

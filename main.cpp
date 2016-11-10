@@ -28,10 +28,12 @@ int main(){
 	terminal->ls(nuevoarbol);
 	terminal->exit(nuevoarbol);
 	*/
-
+	Disco* disco = new Disco();
 	Terminal* terminal = new Terminal();
 	Arbol* nuevoArbol = terminal->cargar();
 	terminal->ls(nuevoArbol);
+	terminal->format(32000);
+	//terminal->upload(nuevoArbol,"disco1.dat",disco);
 
 
 	return 0;

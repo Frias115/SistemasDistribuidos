@@ -1,4 +1,5 @@
 #pragma once
+#include "Arbol.h"
 #include <list>
 #include <string>
 #include <iostream>
@@ -6,6 +7,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <stdlib.h>
+
 using namespace std;
 
 #ifndef DISCO 
@@ -14,8 +16,8 @@ using namespace std;
 class Disco{
 public:
 
-
-	void writeFile(char* datos);
+	void buscarSectoresLibres(int numeroBloques,Nodo* nodo);
+	void writeFile(string archivo,Nodo* nodo);
 	char* readFile();
 	void writeBlock(char* datos, int idBloque);
 	char* readBlock(int idBloque);

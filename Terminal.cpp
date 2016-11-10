@@ -223,7 +223,7 @@ void Terminal::escribeNodoRecursiva(Nodo* nodo) {
     fwrite(&nhijos,sizeof(int),1,arbolBinario);
     fclose(arbolBinario);
 
-    for(std::list<Nodo*>::iterator i = nodo->hijos->begin(); i != nodo->hijos->end(); i++){
+    for(list<Nodo*>::iterator i = nodo->hijos->begin(); i != nodo->hijos->end(); i++){
 
         escribeNodoRecursiva((*i));
 
@@ -326,9 +326,45 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
 void Terminal::format(int size){
 
+    char inicializar = '0';
+    size = size*1000-1;
 	FILE* disco1=fopen("disco1.dat", "w");
+    fseek(disco1,size,SEEK_SET);
+    fwrite(&inicializar,sizeof(char),1,disco1);
+    fclose(disco1);
 
-	fseek(disco1,);
+    FILE* sectoresLibres1 = fopen("sectoreslibres1.dat","w");
+    bool booleano = true;
+    for(int i=0;i<=size;i++) {
+        fwrite(&booleano, sizeof(bool), 1, sectoresLibres1);
+    }
+    fclose(sectoresLibres1);
+}
+
+void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
+
+    //Añadiendo nuevo nodo
+    elArbol->addChild(nombreArchivo,false);
+    Nodo* aux = elArbol->findChild(nombreArchivo);
+
+    ifstream nuevoArchivo (nombreArchivo,ifstream::binary);
+
+    // get length of file:
+    nuevoArchivo.seekg (0, nuevoArchivo.end);
+    aux->sizeNodo = nuevoArchivo.tellg();
+    nuevoArchivo.seekg (0, nuevoArchivo.beg);
+    nuevoArchivo.close();
+
+    //Calcular numero de bloques
+    int numeroBloquesNecesarios = aux->sizeNodo/1000-1;
+    //Buscar los sectores libres
+    disco->buscarSectoresLibres(numeroBloquesNecesarios,aux);
+
+    disco->writeFile(nombreArchivo,aux);
+
+
+
+
 
 }
 
