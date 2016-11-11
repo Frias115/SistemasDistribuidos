@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <stdlib.h>
+#include <math.h>
 using namespace std;
 
 #ifndef TERMINAL

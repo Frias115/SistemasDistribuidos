@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <fstream>
 #include <stdlib.h>
-
 using namespace std;
 
 #ifndef DISCO 
@@ -19,7 +18,7 @@ public:
 	void buscarSectoresLibres(int numeroBloques,Nodo* nodo);
 	void writeFile(string archivo,Nodo* nodo);
 	char* readFile(Nodo* nodo);
-	void writeBlock(char* datos, int idBloque);
+	void writeBlock(char* datos, int cantidad, int idBloque);
 	char* readBlock(int idBloque);
 
 };

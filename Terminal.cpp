@@ -1,4 +1,5 @@
 #include "Terminal.h"
+#include <fstream>
 
 
 void Terminal::ls(Arbol* elArbol){
@@ -343,7 +344,8 @@ void Terminal::format(int size){
 
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
-    ifstream nuevoArchivo (nombreArchivo,ifstream::binary);
+	std::ifstream nuevoArchivo;
+	nuevoArchivo.open(nombreArchivo.c_str(), ifstream::binary);
     if(nuevoArchivo.is_open()) {
         //Añadiendo nuevo nodo
         elArbol->addChild(nombreArchivo, false);
@@ -355,8 +357,15 @@ void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
         nuevoArchivo.seekg(0, nuevoArchivo.beg);
         nuevoArchivo.close();
 
+        int numeroBloquesNecesarios;
+        float auxBloques;
         //Calcular numero de bloques
-        int numeroBloquesNecesarios = aux->sizeNodo / 1000;
+        if(aux->sizeNodo >= 1000){
+        	auxBloques = ceil(aux->sizeNodo / 1000.0f);
+        	numeroBloquesNecesarios = auxBloques;
+        } else {
+        	numeroBloquesNecesarios = 1;
+        }
         //Buscar los sectores libres
         disco->buscarSectoresLibres(numeroBloquesNecesarios, aux);
 

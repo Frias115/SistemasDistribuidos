@@ -27,28 +27,49 @@ void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 void Disco::writeFile(string archivo, Nodo* nodo) {
 
 
-    char* buffer[nodo->sizeNodo];
-    for(int i=0;i<nodo->sizeNodo;i++){
-        buffer[i] = 0;
-    }
+    char* buffer = (char*) calloc(nodo->sizeNodo, sizeof(char));
+
     FILE* miArchivo = fopen(archivo.c_str(),"r");
-    fread(&buffer,sizeof(char),nodo->sizeNodo,miArchivo);
+    fread(buffer,sizeof(char),nodo->sizeNodo,miArchivo);
     fclose(miArchivo);
-    int j=0;
-    for(list<int>::iterator i = nodo->bloquesUsados->begin(); i != nodo->bloquesUsados->end(); i++,j+=1000){
+    int cantidad = 0, counter = 0;
+    for(list<int>::iterator i = nodo->bloquesUsados->begin(); i != nodo->bloquesUsados->end(); i++, counter++){
 
-        writeBlock(buffer[j],(*i));
+    	//El archivo ocupa un bloque o menos
+    	if(nodo->sizeNodo <= 1000){
+    		cantidad = nodo->sizeNodo;
+    		writeBlock(buffer,cantidad,(*i));
+    		free(buffer);
+    		return;
+    	}
+
+    	//El archivo ocupa mas de un bloque
+    	if(nodo->sizeNodo - (1000 * counter) > 1000){
+    		writeBlock(buffer,1000,(*i));
+    	} else {
+    		cantidad = nodo->sizeNodo - (1000 * counter);
+    		writeBlock(buffer,cantidad,(*i));
+    	}
 
     }
-
+    free(buffer);
 }
 
-void Disco::writeBlock(char* datos, int idBloque) {
+void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
 
-    FILE* miDisco = fopen("disco1.dat","w");
+    FILE* miDisco = fopen("disco1.dat","r+");
     fseek(miDisco,idBloque*1000,SEEK_SET);
-    fwrite(datos,sizeof(char),1000,miDisco);
+
+    char* aux = (char*) calloc(cantidad, sizeof(char));
+
+    for(int i = 0; i < cantidad; i++){
+    	aux[i] = datos[idBloque*1000+i];
+    }
+
+    fwrite(aux,sizeof(char),cantidad,miDisco);
+
     fclose(miDisco);
+    free(aux);
 }
 
 
