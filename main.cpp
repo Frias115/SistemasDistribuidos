@@ -33,7 +33,7 @@ int main(){
 	Arbol* nuevoArbol = terminal->cargar();
 	terminal->ls(nuevoArbol);
 	terminal->format(32000);
-	//terminal->upload(nuevoArbol,"disco1.dat",disco);
+	terminal->upload(nuevoArbol,"hola.txt",disco);
 
 
 	return 0;

@@ -343,24 +343,33 @@ void Terminal::format(int size){
 
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
-    //Añadiendo nuevo nodo
-    elArbol->addChild(nombreArchivo,false);
-    Nodo* aux = elArbol->findChild(nombreArchivo);
-
     ifstream nuevoArchivo (nombreArchivo,ifstream::binary);
+    if(nuevoArchivo.is_open()) {
+        //Añadiendo nuevo nodo
+        elArbol->addChild(nombreArchivo, false);
+        Nodo *aux = elArbol->findChild(nombreArchivo);
 
-    // get length of file:
-    nuevoArchivo.seekg (0, nuevoArchivo.end);
-    aux->sizeNodo = nuevoArchivo.tellg();
-    nuevoArchivo.seekg (0, nuevoArchivo.beg);
-    nuevoArchivo.close();
+        // get length of file:
+        nuevoArchivo.seekg(0, nuevoArchivo.end);
+        aux->sizeNodo = nuevoArchivo.tellg();
+        nuevoArchivo.seekg(0, nuevoArchivo.beg);
+        nuevoArchivo.close();
 
-    //Calcular numero de bloques
-    int numeroBloquesNecesarios = aux->sizeNodo/1000-1;
-    //Buscar los sectores libres
-    disco->buscarSectoresLibres(numeroBloquesNecesarios,aux);
+        //Calcular numero de bloques
+        int numeroBloquesNecesarios = aux->sizeNodo / 1000;
+        //Buscar los sectores libres
+        disco->buscarSectoresLibres(numeroBloquesNecesarios, aux);
 
-    disco->writeFile(nombreArchivo,aux);
+        disco->writeFile(nombreArchivo, aux);
+    }
+
+}
+
+void Terminal::download(Arbol *elArbol, string nombreArchivo, Disco *disco) {
+
+
+
+
 
 
 

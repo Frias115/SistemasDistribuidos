@@ -71,6 +71,9 @@ public:
     //Cargar el fichero en el disco duro
     void upload(Arbol* elArbol,string nombreArchivo,Disco* disco);
 
+    //Descargar el fichero del disco duro
+    void download(Arbol* elArbol,string nombreArchivo,Disco* disco);
+
 };
 
 #endif
