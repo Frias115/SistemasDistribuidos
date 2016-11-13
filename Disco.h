@@ -2,6 +2,7 @@
 #include "Arbol.h"
 #include <list>
 #include <string>
+#include <string.h>
 #include <iostream>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -18,7 +19,7 @@ public:
 	void buscarSectoresLibres(int numeroBloques,Nodo* nodo);
 	void writeFile(string archivo,Nodo* nodo);
 	char* readFile(Nodo* nodo);
-	void writeBlock(char* datos, int cantidad, int idBloque);
+	void writeBlock(char* datos, int cantidad, int numBloque, int idBloque);
 	char* readBlock(int idBloque);
 
 };

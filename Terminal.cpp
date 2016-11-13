@@ -344,18 +344,17 @@ void Terminal::format(int size){
 
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
-	std::ifstream nuevoArchivo;
-	nuevoArchivo.open(nombreArchivo.c_str(), ifstream::binary);
-    if(nuevoArchivo.is_open()) {
+	FILE* nuevoArchivo=fopen(nombreArchivo.c_str(), "r+");
+
+    if(nuevoArchivo != NULL) {
         //Añadiendo nuevo nodo
         elArbol->addChild(nombreArchivo, false);
         Nodo *aux = elArbol->findChild(nombreArchivo);
 
         // get length of file:
-        nuevoArchivo.seekg(0, nuevoArchivo.end);
-        aux->sizeNodo = nuevoArchivo.tellg();
-        nuevoArchivo.seekg(0, nuevoArchivo.beg);
-        nuevoArchivo.close();
+        fseek (nuevoArchivo, 0, SEEK_END);   // non-portable
+        aux->sizeNodo=ftell (nuevoArchivo);
+        fclose (nuevoArchivo);
 
         int numeroBloquesNecesarios;
         float auxBloques;

@@ -34,8 +34,9 @@ int main(){
 	terminal->ls(nuevoArbol);
 	terminal->format(32000);
 	terminal->upload(nuevoArbol,"hola.txt",disco);
-
-	Nodo* prueba = nuevoArbol->findChild("hola.txt");
+	terminal->upload(nuevoArbol,"adios.txt",disco);
+	terminal->upload(nuevoArbol,"prueba1.txt",disco);
+	terminal->upload(nuevoArbol,"prueba2.txt",disco);
 
 	terminal->ls(nuevoArbol);
 
