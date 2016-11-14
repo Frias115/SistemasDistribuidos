@@ -27,9 +27,9 @@ void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 void Disco::writeFile(string archivo, Nodo* nodo) {
 
 
-    //char* buffer = (char*) calloc(nodo->sizeNodo, sizeof(char));
-	char* buffer = (char*) malloc(sizeof(char) * nodo->sizeNodo);
-	char* aux = (char*) malloc(sizeof(char) * 1000);
+    char* buffer = (char*) calloc(nodo->sizeNodo, sizeof(char));
+	//char* buffer = (char*) malloc(sizeof(char) * nodo->sizeNodo);
+	//char* aux = (char*) calloc(sizeof(char) * 1000);
 
     cout << archivo << endl;
 
@@ -39,28 +39,23 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
     int cantidad = 0, counter = 0;
     for(list<int>::iterator i = nodo->bloquesUsados->begin(); i != nodo->bloquesUsados->end(); i++, counter++){
 
-    	memcpy( aux, &buffer[counter*1000], sizeof(char) * 1000 );
+    	//memcpy( aux, &buffer[counter*1000], sizeof(char) * 1000 );
     	//El archivo ocupa un bloque o menos
     	if(nodo->sizeNodo <= 1000){
     		cantidad = nodo->sizeNodo;
-
-    		writeBlock(aux,cantidad,counter,(*i));
-    		free(buffer);
-    		free(aux);
-    		return;
+    		writeBlock(buffer,cantidad,counter,(*i));
     	}
-
     	//El archivo ocupa mas de un bloque
-    	if(nodo->sizeNodo - (1000 * counter) > 1000){
-    		writeBlock(aux,1000,counter,(*i));
+    	else if(nodo->sizeNodo - (1000 * counter) > 1000){
+    		writeBlock(buffer,1000,counter,(*i));
     	} else {
     		cantidad = nodo->sizeNodo - (1000 * counter);
-    		writeBlock(aux,cantidad,counter,(*i));
+    		writeBlock(buffer,cantidad,counter,(*i));
     	}
 
     }
     free(buffer);
-    free(aux);
+    //free(aux);
 }
 
 void Disco::writeBlock(char* datos, int cantidad, int numBloque, int idBloque) {
@@ -78,7 +73,11 @@ void Disco::writeBlock(char* datos, int cantidad, int numBloque, int idBloque) {
     }
     cout << endl;*/
 
-    fwrite(datos,sizeof(char),cantidad,miDisco);
+    for(int i = 0; i < cantidad; i++){
+    	fwrite(&datos[numBloque*1000+i],sizeof(char),1,miDisco);
+    }
+
+    //fwrite(datos,sizeof(char),cantidad,miDisco);
 
     fclose(miDisco);
     //free(aux);

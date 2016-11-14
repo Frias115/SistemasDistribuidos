@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(){
-	//Arbol* nuevoarbol = new Arbol();
+	//Arbol* nuevoArbol = new Arbol();
 	//nuevoarbol->addChild("documentos", true);
 	//nuevoarbol->addChild("prueba", false);
 	//nuevoarbol->removeChild("documentos");

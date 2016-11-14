@@ -49,10 +49,12 @@ Nodo* Arbol::addChild(string nombreNodo, bool directorio){
 
 Nodo* Arbol::findChild(string nombreABuscar){
 
-	for(std::list<Nodo*>::iterator i = directorioActual->hijos->begin(); i != directorioActual->hijos->end(); i++){
+	if(directorioActual->hijos->size() > 0){
+		for(std::list<Nodo*>::iterator i = directorioActual->hijos->begin(); i != directorioActual->hijos->end(); i++){
 
-		if((*i)->nombre.compare(nombreABuscar) == 0 )	return (*i);
+			if((*i)->nombre.compare(nombreABuscar) == 0 ) return (*i);
 		
+		}
 	}
 
 	return NULL;

@@ -352,9 +352,11 @@ void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
         Nodo *aux = elArbol->findChild(nombreArchivo);
 
         // get length of file:
-        fseek (nuevoArchivo, 0, SEEK_END);   // non-portable
-        aux->sizeNodo=ftell (nuevoArchivo);
+        fseek (nuevoArchivo, 0, SEEK_END);
+        int size = ftell (nuevoArchivo);
         fclose (nuevoArchivo);
+
+        aux->sizeNodo = size;
 
         int numeroBloquesNecesarios;
         float auxBloques;
