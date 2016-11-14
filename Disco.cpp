@@ -1,6 +1,9 @@
 #include "Disco.h"
 #include "Nodo.h"
 
+// 1000 BYTES
+#define BLOQUE 1000
+
 void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 
     bool bloqueValido;
@@ -26,58 +29,43 @@ void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 
 void Disco::writeFile(string archivo, Nodo* nodo) {
 
-
-    char* buffer = (char*) calloc(nodo->sizeNodo, sizeof(char));
-	//char* buffer = (char*) malloc(sizeof(char) * nodo->sizeNodo);
-	//char* aux = (char*) calloc(sizeof(char) * 1000);
+    char* buffer = (char*) calloc(BLOQUE, sizeof(char));
 
     cout << archivo << endl;
 
-    FILE* miArchivo = fopen(archivo.c_str(),"r+");
-    fread(buffer,sizeof(char),nodo->sizeNodo,miArchivo);
-    fclose(miArchivo);
+    FILE* miArchivo;
     int cantidad = 0, counter = 0;
+
     for(list<int>::iterator i = nodo->bloquesUsados->begin(); i != nodo->bloquesUsados->end(); i++, counter++){
 
-    	//memcpy( aux, &buffer[counter*1000], sizeof(char) * 1000 );
+    	miArchivo = fopen(archivo.c_str(),"r+");
+    	fseek(miArchivo,counter*BLOQUE, SEEK_SET);
+    	fread(buffer,sizeof(char),BLOQUE,miArchivo);
+    	fclose(miArchivo);
+
     	//El archivo ocupa un bloque o menos
-    	if(nodo->sizeNodo <= 1000){
+    	if(nodo->sizeNodo <= BLOQUE){
     		cantidad = nodo->sizeNodo;
-    		writeBlock(buffer,cantidad,counter,(*i));
+    		writeBlock(buffer,cantidad,(*i));
     	}
     	//El archivo ocupa mas de un bloque
-    	else if(nodo->sizeNodo - (1000 * counter) > 1000){
-    		writeBlock(buffer,1000,counter,(*i));
+    	else if(nodo->sizeNodo - (BLOQUE * counter) > BLOQUE){
+    		writeBlock(buffer,BLOQUE,(*i));
     	} else {
-    		cantidad = nodo->sizeNodo - (1000 * counter);
-    		writeBlock(buffer,cantidad,counter,(*i));
+    		cantidad = nodo->sizeNodo - (BLOQUE * counter);
+    		writeBlock(buffer,cantidad,(*i));
     	}
 
     }
     free(buffer);
-    //free(aux);
 }
 
-void Disco::writeBlock(char* datos, int cantidad, int numBloque, int idBloque) {
+void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
 
     FILE* miDisco = fopen("disco1.dat","r+");
-    fseek(miDisco,idBloque*1000,SEEK_SET);
+    fseek(miDisco,idBloque*BLOQUE,SEEK_SET);
 
-    //char* aux = (char*) calloc(cantidad, sizeof(char));
-    //char* aux = (char*) malloc(sizeof(char) * cantidad);
-
-    /*
-    for(int i = 0; i < cantidad; i++){
-    	aux[i] = datos[numBloque*1000+i];
-    	cout << datos[numBloque*1000+i];
-    }
-    cout << endl;*/
-
-    for(int i = 0; i < cantidad; i++){
-    	fwrite(&datos[numBloque*1000+i],sizeof(char),1,miDisco);
-    }
-
-    //fwrite(datos,sizeof(char),cantidad,miDisco);
+    fwrite(datos,sizeof(char),cantidad,miDisco);
 
     fclose(miDisco);
     //free(aux);
