@@ -390,7 +390,225 @@ void Terminal::download(Arbol *elArbol, string nombreArchivo, Disco *disco) {
 //Upload y download aplicar el disco, es la segunda parte e implemntar el disco, ver la hoja que nos hizo Marcos
 
 
+//Ejemplo mpi
 
+/* prueba1.c
+	#include <stdio.h>
+	#include <stdlib.h>
+
+	int main()
+	{
+
+		char comando[20];
+		scanf("%s",comando); //master
+		printf("%s\n",comando); //slaver
+
+		switch(comando[0])
+		{
+
+			case 'l':
+				printf("pulsado l\n");
+			break;
+
+			case 'b':
+				printf("pulsado b\n");
+			break;
+
+			default:
+
+			break;
+		};
+
+		return 0;
+	}
+ */
+
+
+/* mainMPI.cpp
+
+ 	#include <stdio.h>
+	#include <stdlib.h>
+	#include "mpi.h"
+
+	typedef enum tipomensaje
+	{
+		pulsadol = 0,
+		pulsadob,
+		format,
+		mkdir,
+		pulsadoerror
+
+	}tipomensaje;
+
+	void enviaMensaje(int numslaves, tipomensaje msg)
+	{
+
+			for(int i=1; i < numslaves; i++)
+			{
+				//MPI_Send(const void *buf, int count, MPI_Datatype datatype, int des, int tag, MPI_Comm comm);
+				MPI_Send(&msg, sizeof(tipomensaje), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+
+			}
+
+	}
+
+	void enviaMensajeFormat(int numslaves, tipomensaje msg, int formatSize)
+	{
+			for(int i=1; i < numslaves; i++)
+			{
+				//MPI_Send(const void *buf, int count, MPI_Datatype datatype, int des, int tag, MPI_Comm comm);
+				MPI_Send(&msg, sizeof(tipomensaje), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+				MPI_Send(&formatSize, sizeof(int), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+
+			}
+
+	}
+
+	void enviaMensajeMkdir(int numslaves, tipomensaje msg, char* nombre, int tam)
+	{
+			for(int i=1; i < numslaves; i++)
+			{
+				//MPI_Send(const void *buf, int count, MPI_Datatype datatype, int des, int tag, MPI_Comm comm);
+				MPI_Send(&msg, sizeof(tipomensaje), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+				MPI_Send(&tam, sizeof(int), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+				MPI_Send(nombre, sizeof(char)*tam, MPI_BYTE , i, 0, MPI_COMM_WORLD);
+			}
+	}
+
+
+	void master(int numslaves)
+	{
+		tipomensaje msg;
+		int salir = 0;
+		int tam = 0;
+		char* comando = new char[20]; // memoria dinamica, no estatica
+		char* nombre = new char[20];
+		while(!salir){
+			scanf("%s",comando); //master
+
+			switch(comando[0])
+			{
+
+				case 'l':
+					//printf("pulsado l\n");
+					msg = pulsadol;
+					enviaMensaje(numSlaves, msg);
+				break;
+
+				case 'b':
+					//printf("pulsado b\n");
+					msg = pulsadob;
+					enviaMensaje(numslaves, msg);
+				break;
+
+				case 'f':
+					scanf("%s",&tam);
+					msg = format;
+					enviaMensajeFormat(numslaves,msg,tam);
+				break;
+
+				case 'm':
+					scanf("%s",nombre);
+					msg = mkdir;
+
+					strlen();// completar
+					enviaMensajeMkdir(numslaves,msg,nombre, tam);
+				break;
+
+				default:
+					msg = pulsadoerror;
+					salir = 1;
+				break;
+			};
+
+
+		}
+
+
+	}
+
+	void slave()
+	{
+
+		MPI_Status status;
+		int salir = 0;
+		tipomensaje msg;
+		int tam;
+
+		while(!salir)
+		{
+			//recibir orden del master
+
+			//MPI_Recv...
+
+			MPI_Recv(&msg, sizeof(tipomensaje), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+
+									// Que solo hago los printf un esclavo o el maestro
+			// ejecutar orden
+			switch(msg)
+			{
+
+				case pulsadol:
+					printf("pulsado l\n");
+				break;
+
+				case pulsadob:
+					printf("pulsado b\n");
+				break;
+
+				case format:
+					MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+					printf("Recibido format: %d\n", tam);
+				break;
+
+				case mkdir:
+				{
+					MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+					char* nombre = new char[tam];
+					MPI_Recv(nombre, sizeof(char)*tam, MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+					printf("Recibido mkdir: %s\n", nombre);
+				break;
+				}
+
+				default:
+					printf("ERROR\n");
+					salir = 1;
+				break;
+			};
+
+		}
+
+
+
+
+	}
+
+	int main(int argc, char** argv)
+	{
+
+		int commSize;
+		int mpiID;
+
+
+		MPI_Init(&argc,&argv);
+		MPI_Comm_size(MPI_COMM_WORLD, &commSize);
+		MPI_Comm_rank(MPI_COMM_WORLD, &mpiID);
+
+		if(mpiID == 0)		// Gather scater, posible alternativa eficiente para esto, pero es mas avanzado
+		{
+			master(commSize);
+		}
+		else
+		{
+			slave();
+		}
+
+
+		MPI_Finalize();
+		return 0;
+	}
+
+ */
 
 
 
