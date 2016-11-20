@@ -284,6 +284,7 @@ Arbol* Terminal::cargar() {
 
 	FILE* arbolBinario=fopen("arbolBinario.bin", "r");
 	Arbol* arbol = new Arbol();
+
 	//Size del nombre y nombre
 	int nameLength;
 	fread(&nameLength,sizeof(int),1,arbolBinario);
@@ -291,6 +292,7 @@ Arbol* Terminal::cargar() {
 	nombre[nameLength] = '\0';
 	fread(nombre,sizeof(char),nameLength,arbolBinario);
 	arbol->directorioActual->nombre = nombre;
+
 	//Size de id e id
 	int idLength;
 	fread(&idLength,sizeof(int),1,arbolBinario);
@@ -306,6 +308,23 @@ Arbol* Terminal::cargar() {
 	fread(&esDirectorioLength,sizeof(int),1,arbolBinario);
 	fread(&arbol->directorioActual->esDirectorio,sizeof(char),esDirectorioLength,arbolBinario);
 
+	//Size de sizeNodo y sizeNodo
+	int sizeNodoLength;
+	fread(&sizeNodoLength,sizeof(int),1,arbolBinario);
+	fread(&arbol->directorioActual->sizeNodo,sizeof(char),sizeNodoLength,arbolBinario);
+
+	//Size de bloquesUsados y bloquesUsados
+	int bloquesUsadosLength;
+	fread(&bloquesUsadosLength,sizeof(int),1,arbolBinario);
+
+	int bloqueUsadoLength, bloqueUsadoFile;
+	for(int i=0;i<bloquesUsadosLength; i++){
+		fread(&bloqueUsadoLength,sizeof(int),1,arbolBinario);
+		fread(&bloqueUsadoFile,sizeof(char),bloqueUsadoLength,arbolBinario);
+		arbol->directorioActual->bloquesUsados->push_back(bloqueUsadoFile);
+	}
+
+	//Size de numero de hijos
 	int nhijos;
 	fread(&nhijos,sizeof(int),1,arbolBinario);
 
@@ -355,9 +374,26 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 	fread(&esDirectorioLength,sizeof(int),1,arbolBinario);
 	fread(&nodo->esDirectorio,sizeof(char),esDirectorioLength,arbolBinario);
 
+	//Size de sizeNodo y sizeNodo
+	int sizeNodoLength;
+	fread(&sizeNodoLength,sizeof(int),1,arbolBinario);
+	fread(&nodo->sizeNodo,sizeof(char),sizeNodoLength,arbolBinario);
+
+	//Size de bloquesUsados y bloquesUsados
+	int bloquesUsadosLength;
+	fread(&bloquesUsadosLength,sizeof(int),1,arbolBinario);
+
+	int bloqueUsadoLength, bloqueUsadoFile;
+	for(int i=0;i<bloquesUsadosLength; i++){
+		fread(&bloqueUsadoLength,sizeof(int),1,arbolBinario);
+		fread(&bloqueUsadoFile,sizeof(char),bloqueUsadoLength,arbolBinario);
+		nodo->bloquesUsados->push_back(bloqueUsadoFile);
+	}
+
 	//Si el nodo es un directorio cambiamos el directorio actual del arbol
 	if(nodo->esDirectorio) arbol->directorioActual = nodo;
 
+	//Size de numero de hijos
 	int nhijos;
 	fread(&nhijos,sizeof(int),1,arbolBinario);
 	for(int i=0;i<nhijos; i++){
@@ -391,33 +427,35 @@ void Terminal::format(int size){
 
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
-	FILE* nuevoArchivo=fopen(nombreArchivo.c_str(), "r+");
+	if(elArbol->findChild(nombreArchivo)==NULL){
+		FILE* nuevoArchivo=fopen(nombreArchivo.c_str(), "r+");
 
-	if(nuevoArchivo != NULL) {
-		//Añadiendo nuevo nodo
-		elArbol->addChild(nombreArchivo, false);
-		Nodo *aux = elArbol->findChild(nombreArchivo);
+		if(nuevoArchivo != NULL) {
+			//Añadiendo nuevo nodo
+			elArbol->addChild(nombreArchivo, false);
+			Nodo *aux = elArbol->findChild(nombreArchivo);
 
-		// get length of file:
-		fseek (nuevoArchivo, 0, SEEK_END);
-		int size = ftell (nuevoArchivo);
-		fclose (nuevoArchivo);
+			// get length of file:
+			fseek (nuevoArchivo, 0, SEEK_END);
+			int size = ftell (nuevoArchivo);
+			fclose (nuevoArchivo);
 
-		aux->sizeNodo = size;
+			aux->sizeNodo = size;
 
-		int numeroBloquesNecesarios;
-		float auxBloques;
-		//Calcular numero de bloques
-		if(aux->sizeNodo >= 1000){
-			auxBloques = ceil(aux->sizeNodo / 1000.0f);
-			numeroBloquesNecesarios = auxBloques;
-		} else {
-			numeroBloquesNecesarios = 1;
+			int numeroBloquesNecesarios;
+			float auxBloques;
+			//Calcular numero de bloques
+			if(aux->sizeNodo >= 1000){
+				auxBloques = ceil(aux->sizeNodo / 1000.0f);
+				numeroBloquesNecesarios = auxBloques;
+			} else {
+				numeroBloquesNecesarios = 1;
+			}
+			//Buscar los sectores libres
+			disco->buscarSectoresLibres(numeroBloquesNecesarios, aux);
+
+			disco->writeFile(nombreArchivo, aux);
 		}
-		//Buscar los sectores libres
-		disco->buscarSectoresLibres(numeroBloquesNecesarios, aux);
-
-		disco->writeFile(nombreArchivo, aux);
 	}
 
 }
@@ -430,8 +468,6 @@ void Terminal::download(Arbol *elArbol, string nombreArchivo, Disco *disco) {
 		disco->readFile(aux);
 
 	}
-
-
 }
 
 //Upload y download aplicar el disco, es la segunda parte e implemntar el disco, ver la hoja que nos hizo Marcos

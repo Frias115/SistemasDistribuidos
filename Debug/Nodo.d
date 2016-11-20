@@ -1,3 +1,3 @@
-Nodo.o: ../Nodo.cpp ../Nodo.h
+Nodo.d: ../Nodo.cpp ../Nodo.h
 
 ../Nodo.h:
