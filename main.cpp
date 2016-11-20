@@ -32,12 +32,15 @@ int main(){
 	Terminal* terminal = new Terminal();
 	Arbol* nuevoArbol = terminal->cargar();
 	terminal->ls(nuevoArbol);
-	terminal->format(32000);
-	terminal->upload(nuevoArbol,"hola.txt",disco);
-	terminal->upload(nuevoArbol,"adios.txt",disco);
-	terminal->upload(nuevoArbol,"prueba1.txt",disco);
-	terminal->upload(nuevoArbol,"prueba2.txt",disco);
+	terminal->download(nuevoArbol,"adiosBleh.txt",disco);
+	terminal->ls(nuevoArbol);
+	//terminal->format(32000);
+	//terminal->upload(nuevoArbol,"holaBleh.txt",disco);
+	//terminal->upload(nuevoArbol,"adiosBleh.txt",disco);
+	//terminal->upload(nuevoArbol,"prueba1.txt",disco);
+	//terminal->upload(nuevoArbol,"prueba2.txt",disco);
 
+	terminal->exit(nuevoArbol);
 	terminal->ls(nuevoArbol);
 
 	return 0;

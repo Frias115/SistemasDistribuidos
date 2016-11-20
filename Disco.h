@@ -18,9 +18,9 @@ public:
 
 	void buscarSectoresLibres(int numeroBloques,Nodo* nodo);
 	void writeFile(string archivo,Nodo* nodo);
-	char* readFile(Nodo* nodo);
+	void readFile(Nodo* nodo);
 	void writeBlock(char* datos, int cantidad, int idBloque);
-	char* readBlock(int idBloque);
+	void readBlock(char* datos, int cantidad, int idBloque);
 
 };
 
