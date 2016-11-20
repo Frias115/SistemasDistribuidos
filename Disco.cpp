@@ -71,6 +71,43 @@ void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
     //free(aux);
 }
 
+void Disco::readBlock(char* datos,int cantidad,int idBloque){
+
+	FILE* miDisco = fopen("disco1.dat","r+");
+	fseek(miDisco,idBloque*BLOQUE,SEEK_SET);
+
+	fread(datos,sizeof(char),cantidad,miDisco);
+	fclose(miDisco);
+}
+
+void Disco::readFile(Nodo* nodo){
+
+	FILE* nuevoArchivo = fopen(nodo->nombre.c_str(),"w");
+	char* datos = (char*)malloc(sizeof(char)*BLOQUE);
+	int cantidad,counter = 0;
+	for(std::list<int>::iterator i = nodo->bloquesUsados->begin(); i != nodo->bloquesUsados->end(); i++,counter++){
+		//El archivo ocupa un bloque o menos
+		if(nodo->sizeNodo <= BLOQUE){
+		    cantidad = nodo->sizeNodo;
+		    readBlock(datos,(*i),cantidad);
+		    fwrite(datos,sizeof(char),cantidad,nuevoArchivo);
+		}
+		//El archivo ocupa mas de un bloque
+		else if(nodo->sizeNodo - (BLOQUE * counter) > BLOQUE){
+		    readBlock(datos,(*i),cantidad);
+		    fwrite(datos,sizeof(char),BLOQUE,nuevoArchivo);
+		} else {
+		    cantidad = nodo->sizeNodo - (BLOQUE * counter);
+		    readBlock(datos,(*i),cantidad);
+		    fwrite(datos,sizeof(char),cantidad,nuevoArchivo);
+		}
+
+	}
+
+	fclose(nuevoArchivo);
+	free(datos);
+}
+
 
 
 
