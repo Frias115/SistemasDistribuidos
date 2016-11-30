@@ -31,7 +31,7 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
 
 	char* buffer = (char*) calloc(BLOQUE, sizeof(char));
 
-	cout << archivo << endl;
+	//cout << archivo << endl;
 
 	FILE* miArchivo;
 	int cantidad = 0, counter = 0;
@@ -61,9 +61,10 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
 }
 
 void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
-
-	FILE* miDisco = fopen("disco1.dat","r+");
-	fseek(miDisco,idBloque*BLOQUE,SEEK_SET);
+	int numeroDisco = findDisco(idBloque,numeroDiscos);
+	int numeroBloque = findSectorDelDisco(idBloque,numeroDiscos);
+	FILE* miDisco = fopen("disco"+numeroDisco+".dat","r+");
+	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
 	fwrite(datos,sizeof(char),cantidad,miDisco);
 
@@ -108,13 +109,27 @@ void Disco::readFile(Nodo* nodo){
 }
 
 void Disco::readBlock(char* datos,int cantidad,int idBloque){
-
-	FILE* miDisco = fopen("disco1.dat","r+");
-	fseek(miDisco,idBloque*BLOQUE,SEEK_SET);
+	int numeroDisco = findDisco(idBloque,numeroDiscos);
+	int numeroBloque = findSectorDelDisco(idBloque,numeroBloque);
+	FILE* miDisco = fopen("disco"+numeroDisco+".dat","r+");
+	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
 	fread(datos,sizeof(char),cantidad,miDisco);
 	fclose(miDisco);
 }
+
+int Disco::findDisco(int idBloque,int numeroDiscos){
+
+	return idBloque%numeroDiscos;
+
+}
+
+int Disco::findSectorDelDisco(int idBloque,int numeroDiscos){
+
+	return idBloque/numeroDiscos;
+}
+
+//cuando hacemos en format hay que pasarle el numero de discos a la clase disco
 
 
 
