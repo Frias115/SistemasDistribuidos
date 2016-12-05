@@ -1,5 +1,4 @@
 #include "Terminal.h"
-#include <fstream>
 
 
 void Terminal::ls(Arbol* elArbol){
@@ -410,13 +409,20 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
 void Terminal::format(int numeroDiscos,int size){
 
+
 	char inicializar = '0';
 	size = size*1000-1;
+
+
 	for(int i=0;i<numeroDiscos;i++){
-		FILE* disco=fopen("disco"+i+".dat", "w");
+
+		string nombre = "disco"+to_string(i)+".dat";
+
+		FILE* disco=fopen(nombre.c_str(), "w");
 		fseek(disco,size,SEEK_SET);
 		fwrite(&inicializar,sizeof(char),1,disco);
 		fclose(disco);
+
 	}
 
 	FILE* sectoresLibres = fopen("sectoreslibres.dat","w");
@@ -427,7 +433,7 @@ void Terminal::format(int numeroDiscos,int size){
 	fclose(sectoresLibres);
 }
 
-void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco,int numeroDiscos) {
+void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
 	if(elArbol->findChild(nombreArchivo)==NULL){
 		FILE* nuevoArchivo=fopen(nombreArchivo.c_str(), "r+");
@@ -462,7 +468,7 @@ void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco,int numer
 
 }
 
-void Terminal::download(Arbol *elArbol, string nombreArchivo, Disco *disco,int numeroDiscos) {
+void Terminal::download(Arbol *elArbol, string nombreArchivo, Disco *disco) {
 
 	if(elArbol->findChild(nombreArchivo)!=NULL){
 

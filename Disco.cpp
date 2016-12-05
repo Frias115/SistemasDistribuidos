@@ -4,13 +4,17 @@
 // 1000 BYTES
 #define BLOQUE 1000
 
+Disco::Disco(int numeroDiscos){
+	this->numeroDiscos = numeroDiscos;
+}
 void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 
 	bool bloqueValido;
 	bool ocupate = false;
 	int counter = 0;
-	FILE* sectoresLibres = fopen("sectoreslibres1.dat","r+");
-	for(int i=0;i<32000;i++){
+	FILE* sectoresLibres = fopen("sectoreslibres.dat","r+");
+	//tamano correcto de sectoresLibres
+	for(int i=0;i<32000*numeroDiscos;i++){
 
 		fread(&bloqueValido,sizeof(bool),1,sectoresLibres);
 		if(bloqueValido){
@@ -63,7 +67,8 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
 void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
 	int numeroDisco = findDisco(idBloque,numeroDiscos);
 	int numeroBloque = findSectorDelDisco(idBloque,numeroDiscos);
-	FILE* miDisco = fopen("disco"+numeroDisco+".dat","r+");
+	string nombre = "disco"+to_string(numeroDisco)+".dat";
+	FILE* miDisco = fopen(nombre.c_str(),"r+");
 	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
 	fwrite(datos,sizeof(char),cantidad,miDisco);
@@ -111,7 +116,8 @@ void Disco::readFile(Nodo* nodo){
 void Disco::readBlock(char* datos,int cantidad,int idBloque){
 	int numeroDisco = findDisco(idBloque,numeroDiscos);
 	int numeroBloque = findSectorDelDisco(idBloque,numeroBloque);
-	FILE* miDisco = fopen("disco"+numeroDisco+".dat","r+");
+	string nombre = "disco"+to_string(numeroDisco)+".dat";
+	FILE* miDisco = fopen(nombre.c_str(),"r+");
 	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
 	fread(datos,sizeof(char),cantidad,miDisco);

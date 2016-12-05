@@ -10,6 +10,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <math.h>
+#include <vector>
 using namespace std;
 
 #ifndef TERMINAL
@@ -70,10 +71,10 @@ public:
     void format(int numeroDiscos,int size);
 
     //Cargar el fichero en el disco duro
-    void upload(Arbol* elArbol,string nombreArchivo,Disco* disco,int numeroDiscos);
+    void upload(Arbol* elArbol,string nombreArchivo,Disco* disco);
 
     //Descargar el fichero del disco duro
-    void download(Arbol* elArbol,string nombreArchivo,Disco* disco,int numeroDiscos);
+    void download(Arbol* elArbol,string nombreArchivo,Disco* disco);
 
 };
 
