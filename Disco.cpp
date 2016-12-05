@@ -4,13 +4,17 @@
 // 1000 BYTES
 #define BLOQUE 1000
 
+Disco::Disco(int numeroDiscos){
+	this->numeroDiscos = numeroDiscos;
+}
 void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 
 	bool bloqueValido;
 	bool ocupate = false;
 	int counter = 0;
-	FILE* sectoresLibres = fopen("sectoreslibres1.dat","r+");
-	for(int i=0;i<32000;i++){
+	FILE* sectoresLibres = fopen("sectoreslibres.dat","r+");
+	//tamano correcto de sectoresLibres
+	for(int i=0;i<32000*numeroDiscos;i++){
 
 		fread(&bloqueValido,sizeof(bool),1,sectoresLibres);
 		if(bloqueValido){
@@ -31,7 +35,7 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
 
 	char* buffer = (char*) calloc(BLOQUE, sizeof(char));
 
-	cout << archivo << endl;
+	//cout << archivo << endl;
 
 	FILE* miArchivo;
 	int cantidad = 0, counter = 0;
@@ -61,9 +65,11 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
 }
 
 void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
-
-	FILE* miDisco = fopen("disco1.dat","r+");
-	fseek(miDisco,idBloque*BLOQUE,SEEK_SET);
+	int numeroDisco = findDisco(idBloque,numeroDiscos);
+	int numeroBloque = findSectorDelDisco(idBloque,numeroDiscos);
+	string nombre = "disco"+to_string(numeroDisco)+".dat";
+	FILE* miDisco = fopen(nombre.c_str(),"r+");
+	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
 	fwrite(datos,sizeof(char),cantidad,miDisco);
 
@@ -108,13 +114,28 @@ void Disco::readFile(Nodo* nodo){
 }
 
 void Disco::readBlock(char* datos,int cantidad,int idBloque){
-
-	FILE* miDisco = fopen("disco1.dat","r+");
-	fseek(miDisco,idBloque*BLOQUE,SEEK_SET);
+	int numeroDisco = findDisco(idBloque,numeroDiscos);
+	int numeroBloque = findSectorDelDisco(idBloque,numeroBloque);
+	string nombre = "disco"+to_string(numeroDisco)+".dat";
+	FILE* miDisco = fopen(nombre.c_str(),"r+");
+	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
 	fread(datos,sizeof(char),cantidad,miDisco);
 	fclose(miDisco);
 }
+
+int Disco::findDisco(int idBloque,int numeroDiscos){
+
+	return idBloque%numeroDiscos;
+
+}
+
+int Disco::findSectorDelDisco(int idBloque,int numeroDiscos){
+
+	return idBloque/numeroDiscos;
+}
+
+//cuando hacemos en format hay que pasarle el numero de discos a la clase disco
 
 
 

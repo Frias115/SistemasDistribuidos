@@ -80,7 +80,14 @@ void Arbol::removeChild(string nombreABuscar){
 	nodoAEliminar = findChild(nombreABuscar);
 	//Si es directorio y no tiene hijos
 	if((nodoAEliminar->esDirectorio && nodoAEliminar->hijos->empty()) || !nodoAEliminar->esDirectorio){
-
+		if(nodoAEliminar->bloquesUsados->size()>0){
+			for(list<int>::iterator i = nodoAEliminar->bloquesUsados->begin(); i != nodoAEliminar->bloquesUsados->end(); i++){
+				bool free = true;
+				FILE* sectoresLibres = fopen("sectoreslibres.dat","r+");
+				fseek(sectoresLibres,sizeof(bool)*(*i),SEEK_SET);
+				fwrite(&free, sizeof(bool), 1, sectoresLibres);
+			}
+		}
 		numeroNodos--;
 
 		Nodo* nodoPadre = nodoAEliminar->padre;

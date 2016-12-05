@@ -1,5 +1,4 @@
 #include "Terminal.h"
-#include <fstream>
 
 
 void Terminal::ls(Arbol* elArbol){
@@ -408,21 +407,30 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
 }
 
-void Terminal::format(int size){
+void Terminal::format(int numeroDiscos,int size){
+
 
 	char inicializar = '0';
 	size = size*1000-1;
-	FILE* disco1=fopen("disco1.dat", "w");
-	fseek(disco1,size,SEEK_SET);
-	fwrite(&inicializar,sizeof(char),1,disco1);
-	fclose(disco1);
 
-	FILE* sectoresLibres1 = fopen("sectoreslibres1.dat","w");
-	bool booleano = true;
-	for(int i=0;i<=size;i++) {
-		fwrite(&booleano, sizeof(bool), 1, sectoresLibres1);
+
+	for(int i=0;i<numeroDiscos;i++){
+
+		string nombre = "disco"+to_string(i)+".dat";
+
+		FILE* disco=fopen(nombre.c_str(), "w");
+		fseek(disco,size,SEEK_SET);
+		fwrite(&inicializar,sizeof(char),1,disco);
+		fclose(disco);
+
 	}
-	fclose(sectoresLibres1);
+
+	FILE* sectoresLibres = fopen("sectoreslibres.dat","w");
+	bool booleano = true;
+	for(int i=0;i<=size*numeroDiscos;i++) {
+		fwrite(&booleano, sizeof(bool), 1, sectoresLibres);
+	}
+	fclose(sectoresLibres);
 }
 
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
@@ -470,7 +478,6 @@ void Terminal::download(Arbol *elArbol, string nombreArchivo, Disco *disco) {
 	}
 }
 
-//Upload y download aplicar el disco, es la segunda parte e implemntar el disco, ver la hoja que nos hizo Marcos
 
 
 //Ejemplo mpi

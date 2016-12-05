@@ -10,6 +10,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <math.h>
+#include <vector>
 using namespace std;
 
 #ifndef TERMINAL
@@ -67,7 +68,7 @@ public:
     Nodo* cargarNodoRecursiva(Arbol* elArbol, FILE* arbolBinario);
 
     //Inicializa los .dat del disco
-    void format(int size);
+    void format(int numeroDiscos,int size);
 
     //Cargar el fichero en el disco duro
     void upload(Arbol* elArbol,string nombreArchivo,Disco* disco);
