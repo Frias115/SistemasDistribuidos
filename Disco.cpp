@@ -135,7 +135,34 @@ int Disco::findSectorDelDisco(int idBloque,int numeroDiscos){
 	return idBloque/numeroDiscos;
 }
 
-//cuando hacemos en format hay que pasarle el numero de discos a la clase disco
+void Disco::format(int numeroDiscos,int size){
+
+	this->numeroDiscos = numeroDiscos;
+
+
+	char inicializar = '0';
+	size = size*1000-1;
+
+
+	for(int i=0;i<numeroDiscos;i++){
+
+		string nombre = "disco"+to_string(i)+".dat";
+
+		FILE* disco=fopen(nombre.c_str(), "w");
+		fseek(disco,size,SEEK_SET);
+		fwrite(&inicializar,sizeof(char),1,disco);
+		fclose(disco);
+
+	}
+
+	FILE* sectoresLibres = fopen("sectoreslibres.dat","w");
+	bool booleano = true;
+	for(int i=0;i<=size*numeroDiscos;i++) {
+		fwrite(&booleano, sizeof(bool), 1, sectoresLibres);
+	}
+	fclose(sectoresLibres);
+}
+
 
 
 

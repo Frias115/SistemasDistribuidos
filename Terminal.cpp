@@ -407,32 +407,6 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
 }
 
-void Terminal::format(int numeroDiscos,int size){
-
-
-	char inicializar = '0';
-	size = size*1000-1;
-
-
-	for(int i=0;i<numeroDiscos;i++){
-
-		string nombre = "disco"+to_string(i)+".dat";
-
-		FILE* disco=fopen(nombre.c_str(), "w");
-		fseek(disco,size,SEEK_SET);
-		fwrite(&inicializar,sizeof(char),1,disco);
-		fclose(disco);
-
-	}
-
-	FILE* sectoresLibres = fopen("sectoreslibres.dat","w");
-	bool booleano = true;
-	for(int i=0;i<=size*numeroDiscos;i++) {
-		fwrite(&booleano, sizeof(bool), 1, sectoresLibres);
-	}
-	fclose(sectoresLibres);
-}
-
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
 	if(elArbol->findChild(nombreArchivo)==NULL){

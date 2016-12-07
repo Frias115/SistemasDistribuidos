@@ -1,6 +1,7 @@
 #pragma once
 #include "Nodo.h"
 #include <string>
+#include <stdio.h>
 #include <sys/stat.h>
 
 #ifndef ARBOL

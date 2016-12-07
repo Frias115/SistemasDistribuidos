@@ -67,9 +67,6 @@ public:
     //Carga los nodos al arbol de manera recursiva
     Nodo* cargarNodoRecursiva(Arbol* elArbol, FILE* arbolBinario);
 
-    //Inicializa los .dat del disco
-    void format(int numeroDiscos,int size);
-
     //Cargar el fichero en el disco duro
     void upload(Arbol* elArbol,string nombreArchivo,Disco* disco);
 

@@ -10,10 +10,10 @@
 #include <stdlib.h>
 using namespace std;
 
-#ifndef DISCO 
-#define DISCO
+#ifndef SLAVE
+#define SLAVE
 
-class Disco{
+class Slave {
 public:
 	Disco(int numeroDiscos);
 	int numeroDiscos;
@@ -28,6 +28,8 @@ public:
     //Inicializa los .dat del disco
     void format(int numeroDiscos,int size);
 
+
+
 };
 
-#endif
+#endif /* SLAVE_H_ */

@@ -7,6 +7,7 @@ CPP_SRCS += \
 ../Arbol.cpp \
 ../Disco.cpp \
 ../Nodo.cpp \
+../Slave.cpp \
 ../Terminal.cpp \
 ../main.cpp 
 
@@ -14,6 +15,7 @@ OBJS += \
 ./Arbol.o \
 ./Disco.o \
 ./Nodo.o \
+./Slave.o \
 ./Terminal.o \
 ./main.o 
 
@@ -21,6 +23,7 @@ CPP_DEPS += \
 ./Arbol.d \
 ./Disco.d \
 ./Nodo.d \
+./Slave.d \
 ./Terminal.d \
 ./main.d 
 
@@ -29,7 +32,7 @@ CPP_DEPS += \
 %.o: ../%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

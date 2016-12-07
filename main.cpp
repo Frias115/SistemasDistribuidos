@@ -30,7 +30,7 @@ int main(){
 	*/
 	Disco* disco = new Disco(4);
 	Terminal* terminal = new Terminal();
-	terminal->format(4,32000);
+	disco->format(4,32000);
 	//Arbol* nuevoArbol = terminal->cargar();
 	terminal->ls(nuevoArbol);
 	//terminal->download(nuevoArbol,"adiosBleh.txt",disco);
