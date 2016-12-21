@@ -1,5 +1,6 @@
 #pragma once
 #include "Arbol.h"
+#include "mpi.h"
 #include <list>
 #include <string>
 #include <string.h>
@@ -15,21 +16,15 @@ using namespace std;
 
 class Slave {
 public:
-	//Disco(int numeroDiscos);
-	int numeroDiscos;
-	void buscarSectoresLibres(int numeroBloques,Nodo* nodo);
-	void writeFile(string archivo,Nodo* nodo);
-	void readFile(Nodo* nodo);
-	void writeBlock(char* datos, int cantidad, int idBloque);
-	void readBlock(char* datos, int cantidad, int idBloque);
-	int findDisco(int idBloque,int numeroDiscos);
-	int findSectorDelDisco(int idBloque,int numeroDiscos);
+
+	void writeBlock(int numeroDisco, int cantidad,int numeroBloque, char* datos);
+	void readBlock(int numeroDisco, int cantidad,int numeroBloque);
 
     //Inicializa los .dat del disco
-    void format(int numeroDiscos,int size);
+    void format(int numeroDisco,int size);
 
 
 
 };
 
-#endif /* SLAVE_H_ */
+#endif 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Arbol.h"
+#include "mpi.h"
 #include <list>
 #include <string>
 #include <string.h>

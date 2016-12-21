@@ -65,15 +65,19 @@ void Disco::writeFile(string archivo, Nodo* nodo) {
 }
 
 void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
+
 	int numeroDisco = findDisco(idBloque,numeroDiscos);
 	int numeroBloque = findSectorDelDisco(idBloque,numeroDiscos);
 	string nombre = "disco"+to_string(numeroDisco)+".dat";
-	FILE* miDisco = fopen(nombre.c_str(),"r+");
-	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
-	fwrite(datos,sizeof(char),cantidad,miDisco);
+	// envio numeroDisco, cantidad, numeroBloque, datos
 
-	fclose(miDisco);
+	MPI_Send(&numeroDisco,  sizeof(int) , MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+	MPI_Send(&cantidad, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+	MPI_Send(&numeroBloque, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+	MPI_Send(&datos, sizeof(BLOQUE), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+
+
 }
 
 void Disco::readFile(Nodo* nodo){
@@ -114,14 +118,20 @@ void Disco::readFile(Nodo* nodo){
 }
 
 void Disco::readBlock(char* datos,int cantidad,int idBloque){
+
 	int numeroDisco = findDisco(idBloque,numeroDiscos);
 	int numeroBloque = findSectorDelDisco(idBloque,numeroBloque);
-	string nombre = "disco"+to_string(numeroDisco)+".dat";
-	FILE* miDisco = fopen(nombre.c_str(),"r+");
-	fseek(miDisco,numeroBloque*BLOQUE,SEEK_SET);
 
-	fread(datos,sizeof(char),cantidad,miDisco);
-	fclose(miDisco);
+	//envio numeroDisco, cantidad, numeroBloque
+
+	MPI_Send(&numeroDisco, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+	MPI_Send(&cantidad, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+	MPI_Send(&numeroBloque, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+
+	//recibo datos
+
+	MPI_Recv(&datos, sizeof(BLOQUE), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+
 }
 
 int Disco::findDisco(int idBloque,int numeroDiscos){
@@ -141,19 +151,13 @@ void Disco::format(int numeroDiscos,int size){
 
 	this->numeroDiscos = numeroDiscos;
 
-
 	char inicializar = '0';
 	size = size*1000-1;
 
-
 	for(int i=0;i<numeroDiscos;i++){
 
-		string nombre = "disco"+to_string(i)+".dat";
-
-		FILE* disco=fopen(nombre.c_str(), "w");
-		fseek(disco,size,SEEK_SET);
-		fwrite(&inicializar,sizeof(char),1,disco);
-		fclose(disco);
+		MPI_Send(&size, sizeof(int), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+		MPI_Send(&i, nombre.size(), MPI_BYTE , i, 0, MPI_COMM_WORLD);
 
 	}
 
