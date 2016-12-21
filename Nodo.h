@@ -14,6 +14,7 @@ class Nodo
 
 public:
 	Nodo();
+	~Nodo();
 	string nombre;
 	//Arbol* elArbol;
 	int id;

@@ -15,7 +15,7 @@ using namespace std;
 
 class Slave {
 public:
-	Disco(int numeroDiscos);
+	//Disco(int numeroDiscos);
 	int numeroDiscos;
 	void buscarSectoresLibres(int numeroBloques,Nodo* nodo);
 	void writeFile(string archivo,Nodo* nodo);

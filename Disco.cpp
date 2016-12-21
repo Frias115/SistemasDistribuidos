@@ -137,6 +137,8 @@ int Disco::findSectorDelDisco(int idBloque,int numeroDiscos){
 
 void Disco::format(int numeroDiscos,int size){
 
+	cout << "Formateo los discos" << endl;
+
 	this->numeroDiscos = numeroDiscos;
 
 

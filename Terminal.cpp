@@ -36,6 +36,7 @@ void Terminal::pwd(Arbol* elArbol) {
 
 	elArbol->directorioActual = aux;
 
+	delete ruta;
 
 }
 
@@ -409,6 +410,8 @@ Nodo* Terminal::cargarNodoRecursiva(Arbol *arbol, FILE* arbolBinario) {
 
 void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 
+	cout << "Subo un archivo." << endl;
+
 	if(elArbol->findChild(nombreArchivo)==NULL){
 		FILE* nuevoArchivo=fopen(nombreArchivo.c_str(), "r+");
 
@@ -434,8 +437,10 @@ void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 				numeroBloquesNecesarios = 1;
 			}
 			//Buscar los sectores libres
+			cout << "Busco sectores libres para el archivo." << endl;
 			disco->buscarSectoresLibres(numeroBloquesNecesarios, aux);
 
+			cout << "Escribo el archivo en disco" << endl;
 			disco->writeFile(nombreArchivo, aux);
 		}
 	}

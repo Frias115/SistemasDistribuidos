@@ -94,5 +94,7 @@ void Arbol::removeChild(string nombreABuscar){
 
 		nodoPadre->hijos->remove(nodoAEliminar);
 
+		delete nodoAEliminar;
+
 	}
 }

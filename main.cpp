@@ -6,9 +6,10 @@
 #include <iostream>
 #include <stdio.h>
 #include <sys/stat.h>
+#include "mpi.h"
 using namespace std;
 
-int main(){
+int main(int argc, char** argv){
 	Arbol* nuevoArbol = new Arbol();
 	nuevoArbol->addChild("documentos", true);
 	nuevoArbol->addChild("prueba", false);
@@ -28,9 +29,19 @@ int main(){
 	terminal->ls(nuevoarbol);
 	terminal->exit(nuevoarbol);
 	*/
+
+	int commSize;
+	int mpiID;
+
+
+	MPI_Init(&argc,&argv);
+	MPI_Comm_size(MPI_COMM_WORLD, &commSize);
+	MPI_Comm_rank(MPI_COMM_WORLD, &mpiID);
+
+
 	Disco* disco = new Disco(4);
 	Terminal* terminal = new Terminal();
-	disco->format(4,32000);
+	disco->format(4,32000);0
 	//Arbol* nuevoArbol = terminal->cargar();
 	terminal->ls(nuevoArbol);
 	//terminal->download(nuevoArbol,"adiosBleh.txt",disco);
@@ -41,12 +52,17 @@ int main(){
 	terminal->cd(nuevoArbol,"documentos");
 	terminal->upload(nuevoArbol,"adiosBleh.txt",disco);
 	terminal->cd(nuevoArbol,"..");
+	terminal->ls(nuevoArbol);
 	terminal->rm("adiosBleh.txt",nuevoArbol);
 	//terminal->upload(nuevoArbol,"prueba1.txt",disco);
 	//terminal->upload(nuevoArbol,"prueba2.txt",disco);
-
 	terminal->exit(nuevoArbol);
 	terminal->ls(nuevoArbol);
+
+	delete nuevoArbol;
+	delete disco;
+	delete terminal;
+	MPI_Finalize();
 
 	return 0;
 
