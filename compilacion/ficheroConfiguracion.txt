@@ -1,0 +1,2 @@
+-np 1 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
+-np 4 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
