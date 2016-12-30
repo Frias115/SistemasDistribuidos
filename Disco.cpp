@@ -75,7 +75,7 @@ void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
 	MPI_Send(&numeroDisco,  sizeof(int) , MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&cantidad, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&numeroBloque, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
-	MPI_Send(&datos, sizeof(BLOQUE), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+	MPI_Send(datos, sizeof(char) * BLOQUE, MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 
 
 }
@@ -130,7 +130,7 @@ void Disco::readBlock(char* datos,int cantidad,int idBloque){
 
 	//recibo datos
 
-	MPI_Recv(&datos, sizeof(BLOQUE), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	MPI_Recv(datos, sizeof(char) * BLOQUE, MPI_BYTE, numeroDisco +1, MPI_ANY_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 
 }
 
@@ -151,13 +151,12 @@ void Disco::format(int numeroDiscos,int size){
 
 	this->numeroDiscos = numeroDiscos;
 
-	char inicializar = '0';
 	size = size*1000-1;
 
 	for(int i=0;i<numeroDiscos;i++){
 
-		MPI_Send(&size, sizeof(int), MPI_BYTE , i, 0, MPI_COMM_WORLD);
-		MPI_Send(&i, nombre.size(), MPI_BYTE , i, 0, MPI_COMM_WORLD);
+		MPI_Send(&size, sizeof(int), MPI_BYTE , i+1, 0, MPI_COMM_WORLD);
+		MPI_Send(&i, sizeof(int), MPI_BYTE , i+1, 0, MPI_COMM_WORLD);
 
 	}
 

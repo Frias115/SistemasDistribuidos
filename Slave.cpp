@@ -7,6 +7,7 @@
 
 void Slave::format(int numeroDisco,int size){
 
+	char inicializar = '0';
 	string nombre = "disco"+to_string(numeroDisco)+".dat";
 
 	FILE* disco=fopen(nombre.c_str(), "w");

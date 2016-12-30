@@ -186,6 +186,30 @@ Nodo.cpp.s:
 	$(MAKE) -f CMakeFiles/SistemasDistribuidos.dir/build.make CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.s
 .PHONY : Nodo.cpp.s
 
+Slave.o: Slave.cpp.o
+.PHONY : Slave.o
+
+# target to build an object file
+Slave.cpp.o:
+	$(MAKE) -f CMakeFiles/SistemasDistribuidos.dir/build.make CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o
+.PHONY : Slave.cpp.o
+
+Slave.i: Slave.cpp.i
+.PHONY : Slave.i
+
+# target to preprocess a source file
+Slave.cpp.i:
+	$(MAKE) -f CMakeFiles/SistemasDistribuidos.dir/build.make CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.i
+.PHONY : Slave.cpp.i
+
+Slave.s: Slave.cpp.s
+.PHONY : Slave.s
+
+# target to generate assembly for a file
+Slave.cpp.s:
+	$(MAKE) -f CMakeFiles/SistemasDistribuidos.dir/build.make CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.s
+.PHONY : Slave.cpp.s
+
 Terminal.o: Terminal.cpp.o
 .PHONY : Terminal.o
 
@@ -252,6 +276,9 @@ help:
 	@echo "... Nodo.o"
 	@echo "... Nodo.i"
 	@echo "... Nodo.s"
+	@echo "... Slave.o"
+	@echo "... Slave.i"
+	@echo "... Slave.s"
 	@echo "... Terminal.o"
 	@echo "... Terminal.i"
 	@echo "... Terminal.s"

@@ -1,0 +1,1 @@
+mpiCC    -g -std=c++11    CMakeFiles/SistemasDistribuidos.dir/Arbol.cpp.o CMakeFiles/SistemasDistribuidos.dir/Disco.cpp.o CMakeFiles/SistemasDistribuidos.dir/main.cpp.o CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o  -o SistemasDistribuidos -rdynamic 

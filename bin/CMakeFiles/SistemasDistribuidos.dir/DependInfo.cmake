@@ -7,6 +7,7 @@ SET(CMAKE_DEPENDS_CHECK_CXX
   "/home/frias/Documents/SistemasDistribuidos/Arbol.cpp" "/home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles/SistemasDistribuidos.dir/Arbol.cpp.o"
   "/home/frias/Documents/SistemasDistribuidos/Disco.cpp" "/home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles/SistemasDistribuidos.dir/Disco.cpp.o"
   "/home/frias/Documents/SistemasDistribuidos/Nodo.cpp" "/home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o"
+  "/home/frias/Documents/SistemasDistribuidos/Slave.cpp" "/home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o"
   "/home/frias/Documents/SistemasDistribuidos/Terminal.cpp" "/home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o"
   "/home/frias/Documents/SistemasDistribuidos/main.cpp" "/home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles/SistemasDistribuidos.dir/main.cpp.o"
   )

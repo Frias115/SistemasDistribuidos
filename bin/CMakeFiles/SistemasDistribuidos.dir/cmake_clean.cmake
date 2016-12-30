@@ -4,6 +4,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/SistemasDistribuidos.dir/main.cpp.o"
   "CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o"
   "CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o"
+  "CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o"
   "SistemasDistribuidos.pdb"
   "SistemasDistribuidos"
 )

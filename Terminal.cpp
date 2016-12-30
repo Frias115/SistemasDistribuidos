@@ -282,61 +282,69 @@ void Terminal::escribeNodoRecursiva(Nodo* nodo) {
 Arbol* Terminal::cargar() {
 
 
-	FILE* arbolBinario=fopen("arbolBinario.bin", "r");
-	Arbol* arbol = new Arbol();
+	FILE* arbolBinario=fopen("arbolBinario.bin", "r+");
+	if (arbolBinario!=NULL)
+  	{
+    	Arbol* arbol = new Arbol();
 
-	//Size del nombre y nombre
-	int nameLength;
-	fread(&nameLength,sizeof(int),1,arbolBinario);
-	char nombre[nameLength + 1];
-	nombre[nameLength] = '\0';
-	fread(nombre,sizeof(char),nameLength,arbolBinario);
-	arbol->directorioActual->nombre = nombre;
+		//Size del nombre y nombre
+		int nameLength;
+		fread(&nameLength,sizeof(int),1,arbolBinario);
+		char nombre[nameLength + 1];
+		nombre[nameLength] = '\0';
+		fread(nombre,sizeof(char),nameLength,arbolBinario);
+		arbol->directorioActual->nombre = nombre;
 
-	//Size de id e id
-	int idLength;
-	fread(&idLength,sizeof(int),1,arbolBinario);
-	fread(&arbol->directorioActual->id,sizeof(char),idLength,arbolBinario);
+		//Size de id e id
+		int idLength;
+		fread(&idLength,sizeof(int),1,arbolBinario);
+		fread(&arbol->directorioActual->id,sizeof(char),idLength,arbolBinario);
 
-	//Size de nivel y nivel
-	int nivelLength;
-	fread(&nivelLength,sizeof(int),1,arbolBinario);
-	fread(&arbol->directorioActual->nivel,sizeof(char),nivelLength,arbolBinario);
+		//Size de nivel y nivel
+		int nivelLength;
+		fread(&nivelLength,sizeof(int),1,arbolBinario);
+		fread(&arbol->directorioActual->nivel,sizeof(char),nivelLength,arbolBinario);
 
-	//Size de esDirectorio y esDirectorio
-	int esDirectorioLength;
-	fread(&esDirectorioLength,sizeof(int),1,arbolBinario);
-	fread(&arbol->directorioActual->esDirectorio,sizeof(char),esDirectorioLength,arbolBinario);
+		//Size de esDirectorio y esDirectorio
+		int esDirectorioLength;
+		fread(&esDirectorioLength,sizeof(int),1,arbolBinario);
+		fread(&arbol->directorioActual->esDirectorio,sizeof(char),esDirectorioLength,arbolBinario);
 
-	//Size de sizeNodo y sizeNodo
-	int sizeNodoLength;
-	fread(&sizeNodoLength,sizeof(int),1,arbolBinario);
-	fread(&arbol->directorioActual->sizeNodo,sizeof(char),sizeNodoLength,arbolBinario);
+		//Size de sizeNodo y sizeNodo
+		int sizeNodoLength;
+		fread(&sizeNodoLength,sizeof(int),1,arbolBinario);
+		fread(&arbol->directorioActual->sizeNodo,sizeof(char),sizeNodoLength,arbolBinario);
 
-	//Size de bloquesUsados y bloquesUsados
-	int bloquesUsadosLength;
-	fread(&bloquesUsadosLength,sizeof(int),1,arbolBinario);
+		//Size de bloquesUsados y bloquesUsados
+		int bloquesUsadosLength;
+		fread(&bloquesUsadosLength,sizeof(int),1,arbolBinario);
 
-	int bloqueUsadoLength, bloqueUsadoFile;
-	for(int i=0;i<bloquesUsadosLength; i++){
-		fread(&bloqueUsadoLength,sizeof(int),1,arbolBinario);
-		fread(&bloqueUsadoFile,sizeof(char),bloqueUsadoLength,arbolBinario);
-		arbol->directorioActual->bloquesUsados->push_back(bloqueUsadoFile);
-	}
+		int bloqueUsadoLength, bloqueUsadoFile;
+		for(int i=0;i<bloquesUsadosLength; i++){
+			fread(&bloqueUsadoLength,sizeof(int),1,arbolBinario);
+			fread(&bloqueUsadoFile,sizeof(char),bloqueUsadoLength,arbolBinario);
+			arbol->directorioActual->bloquesUsados->push_back(bloqueUsadoFile);
+		}
 
-	//Size de numero de hijos
-	int nhijos;
-	fread(&nhijos,sizeof(int),1,arbolBinario);
+		//Size de numero de hijos
+		int nhijos;
+		fread(&nhijos,sizeof(int),1,arbolBinario);
 
-	for(int i=0;i<nhijos; i++){
+		for(int i=0;i<nhijos; i++){
 
-		arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol, arbolBinario));
+			arbol->directorioActual->hijos->push_back(cargarNodoRecursiva(arbol, arbolBinario));
 
-	}
-	fclose(arbolBinario);
-	arbol->directorioActual = arbol->root;
+		}
+		fclose(arbolBinario);
+		arbol->directorioActual = arbol->root;
 
-	return arbol;
+		return arbol;
+  	} 
+  	else
+  	{
+  		return NULL;
+  	}
+	
 
 }
 

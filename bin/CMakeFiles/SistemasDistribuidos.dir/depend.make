@@ -13,6 +13,11 @@ CMakeFiles/SistemasDistribuidos.dir/Disco.cpp.o: ../Nodo.h
 CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o: ../Nodo.cpp
 CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o: ../Nodo.h
 
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o: ../Arbol.h
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o: ../Nodo.h
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o: ../Slave.cpp
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o: ../Slave.h
+
 CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o: ../Arbol.h
 CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o: ../Disco.h
 CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o: ../Nodo.h
@@ -22,6 +27,7 @@ CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o: ../Terminal.h
 CMakeFiles/SistemasDistribuidos.dir/main.cpp.o: ../Arbol.h
 CMakeFiles/SistemasDistribuidos.dir/main.cpp.o: ../Disco.h
 CMakeFiles/SistemasDistribuidos.dir/main.cpp.o: ../Nodo.h
+CMakeFiles/SistemasDistribuidos.dir/main.cpp.o: ../Slave.h
 CMakeFiles/SistemasDistribuidos.dir/main.cpp.o: ../Terminal.h
 CMakeFiles/SistemasDistribuidos.dir/main.cpp.o: ../main.cpp
 

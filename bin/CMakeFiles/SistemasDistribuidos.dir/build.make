@@ -167,13 +167,37 @@ CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o.provides: CMakeFiles/Sistemas
 
 CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o.provides.build: CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o
 
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o: CMakeFiles/SistemasDistribuidos.dir/flags.make
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o: ../Slave.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/frias/Documents/SistemasDistribuidos/bin/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o"
+	mpiCC   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o -c /home/frias/Documents/SistemasDistribuidos/Slave.cpp
+
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.i"
+	mpiCC  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/frias/Documents/SistemasDistribuidos/Slave.cpp > CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.i
+
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.s"
+	mpiCC  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/frias/Documents/SistemasDistribuidos/Slave.cpp -o CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.s
+
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.requires:
+.PHONY : CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.requires
+
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.provides: CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.requires
+	$(MAKE) -f CMakeFiles/SistemasDistribuidos.dir/build.make CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.provides.build
+.PHONY : CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.provides
+
+CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.provides.build: CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o
+
 # Object files for target SistemasDistribuidos
 SistemasDistribuidos_OBJECTS = \
 "CMakeFiles/SistemasDistribuidos.dir/Arbol.cpp.o" \
 "CMakeFiles/SistemasDistribuidos.dir/Disco.cpp.o" \
 "CMakeFiles/SistemasDistribuidos.dir/main.cpp.o" \
 "CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o" \
-"CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o"
+"CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o" \
+"CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o"
 
 # External object files for target SistemasDistribuidos
 SistemasDistribuidos_EXTERNAL_OBJECTS =
@@ -183,6 +207,7 @@ SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/Disco.cpp.o
 SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/main.cpp.o
 SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o
 SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o
+SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o
 SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/build.make
 SistemasDistribuidos: CMakeFiles/SistemasDistribuidos.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable SistemasDistribuidos"
@@ -197,6 +222,7 @@ CMakeFiles/SistemasDistribuidos.dir/requires: CMakeFiles/SistemasDistribuidos.di
 CMakeFiles/SistemasDistribuidos.dir/requires: CMakeFiles/SistemasDistribuidos.dir/main.cpp.o.requires
 CMakeFiles/SistemasDistribuidos.dir/requires: CMakeFiles/SistemasDistribuidos.dir/Nodo.cpp.o.requires
 CMakeFiles/SistemasDistribuidos.dir/requires: CMakeFiles/SistemasDistribuidos.dir/Terminal.cpp.o.requires
+CMakeFiles/SistemasDistribuidos.dir/requires: CMakeFiles/SistemasDistribuidos.dir/Slave.cpp.o.requires
 .PHONY : CMakeFiles/SistemasDistribuidos.dir/requires
 
 CMakeFiles/SistemasDistribuidos.dir/clean:

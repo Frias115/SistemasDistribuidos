@@ -2,6 +2,7 @@
 #include "Nodo.h"
 #include "Terminal.h"
 #include "mpi.h"
+#include "Slave.h"
 #include <list>
 #include <string>
 #include <iostream>
@@ -11,45 +12,27 @@ using namespace std;
 
 #define BLOQUE 1000
 
-int main(int argc, char** argv){
-	
-	int commSize;
-	int mpiID;
-
-	MPI_Init(&argc,&argv);
-	MPI_Comm_size(MPI_COMM_WORLD, &commSize);
-	MPI_Comm_rank(MPI_COMM_WORLD, &mpiID);
-
-	if(mpiID == 0)		// Gather scater, posible alternativa eficiente para esto, pero es mas avanzado
-	{
-		master(commSize);
-	}
-	else
-	{
-		slave();
-	}
-
-
-	MPI_Finalize();
-	return 0;
-}
-
-
 void master(int numslaves)
 {
 	Arbol* nuevoArbol = new Arbol();
 	Terminal* terminal = new Terminal();
-	Disco* disco = new Disco();
+	Disco* disco = new Disco(numslaves - 1);
 
-	nuevoArbol = terminal->cargar();
+	//nuevoArbol = terminal->cargar();
 
 	//TODO: Terminal
 
-	tipomensaje msg;
+	//tipomensaje msg;
 	int salir = 0;
 	int tam = 0;
 	char* comando = new char[20]; // memoria dinamica, no estatica
 	char* nombre = new char[20];
+
+	disco->format(numslaves - 1, 32000);
+
+	terminal->upload(nuevoArbol,"adiosBleh.txt",disco);
+
+	/*
 	while(!salir){
 		scanf("%s",comando); //master
 
@@ -90,7 +73,7 @@ void master(int numslaves)
 
 
 	}
-
+	*/
 	delete nuevoArbol;
 	delete disco;
 	delete terminal;
@@ -104,11 +87,25 @@ void slave()
 	char* datos = (char*) calloc(BLOQUE, sizeof(char));
 	MPI_Status status;
 	int salir = 0;
-	tipomensaje msg;
+	//tipomensaje msg;
 	int tam, bloque, numeroDisco;
 
-	//TODO: Terminal
 
+	MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	MPI_Recv(&numeroDisco, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	slave->format(numeroDisco,tam);
+	printf("Recibido format: %d\n", tam);
+
+	
+	MPI_Recv(&numeroDisco, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	MPI_Recv(&bloque, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	MPI_Recv(datos, sizeof(char) * BLOQUE, MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+	slave->writeBlock(numeroDisco,tam,bloque,datos);
+	
+
+	//TODO: Terminal
+	/*
 	while(!salir)
 	{
 		//recibir orden del master
@@ -168,5 +165,29 @@ void slave()
 		};
 
 	}
+	*/
 	free(datos);
+}
+
+
+int main(int argc, char** argv){
+	
+	int commSize;
+	int mpiID;
+
+	MPI_Init(&argc,&argv);
+	MPI_Comm_size(MPI_COMM_WORLD, &commSize);
+	MPI_Comm_rank(MPI_COMM_WORLD, &mpiID);
+
+	if(mpiID == 0)		// Gather scater, posible alternativa eficiente para esto, pero es mas avanzado
+	{
+		master(commSize);
+	}
+	else
+	{
+		slave();
+	}
+
+	MPI_Finalize();
+	return 0;
 }
