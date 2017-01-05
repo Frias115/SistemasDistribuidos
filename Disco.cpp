@@ -4,6 +4,15 @@
 // 1000 BYTES
 #define BLOQUE 1000
 
+typedef enum tipoMensaje
+{
+	format = 0,
+	upload,
+	download,
+	exit
+
+}tipoMensaje;
+
 Disco::Disco(int numeroDiscos){
 	this->numeroDiscos = numeroDiscos;
 }
@@ -70,7 +79,12 @@ void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
 	int numeroBloque = findSectorDelDisco(idBloque,numeroDiscos);
 	string nombre = "disco"+to_string(numeroDisco)+".dat";
 
-	// envio numeroDisco, cantidad, numeroBloque, datos
+	// Envio un msg para que el disco que necesito espere los datos
+
+	tipoMensaje msg = upload;
+	MPI_Send(&msg, sizeof(tipoMensaje), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+
+	// Envio numeroDisco, cantidad, numeroBloque, datos
 
 	MPI_Send(&numeroDisco,  sizeof(int) , MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&cantidad, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
@@ -122,13 +136,18 @@ void Disco::readBlock(char* datos,int cantidad,int idBloque){
 	int numeroDisco = findDisco(idBloque,numeroDiscos);
 	int numeroBloque = findSectorDelDisco(idBloque,numeroBloque);
 
-	//envio numeroDisco, cantidad, numeroBloque
+	// Envio un msg para que el disco que necesito espere los datos
+
+	tipoMensaje msg = download;
+	MPI_Send(&msg, sizeof(tipoMensaje), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+
+	// Envio numeroDisco, cantidad, numeroBloque
 
 	MPI_Send(&numeroDisco, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&cantidad, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&numeroBloque, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 
-	//recibo datos
+	// Recibo datos
 
 	MPI_Recv(datos, sizeof(char) * BLOQUE, MPI_BYTE, numeroDisco +1, MPI_ANY_TAG, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
 

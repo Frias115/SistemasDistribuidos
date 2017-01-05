@@ -75,10 +75,6 @@ void Terminal::cd(Arbol* elArbol, string nombreNuevoDirectorio){
 
 	}
 
-
-
-
-
 }
 
 void Terminal::mv(string nuevoNombreNodo, string nombreNodo, Arbol* elArbol) {
