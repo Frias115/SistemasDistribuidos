@@ -29,7 +29,7 @@ void Slave::readBlock(int numeroDisco, int cantidad,int numeroBloque){
 	fread(datos,sizeof(char),cantidad,miDisco);
 	fclose(miDisco);
 
-	MPI_Send(&datos, sizeof(BLOQUE), MPI_BYTE , 0, 0, MPI_COMM_WORLD);
+	MPI_Send(datos, sizeof(char) * BLOQUE, MPI_BYTE , 0, 0, MPI_COMM_WORLD);
 	free(datos);
 
 }

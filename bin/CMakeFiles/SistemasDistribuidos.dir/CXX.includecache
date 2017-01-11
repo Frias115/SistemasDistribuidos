@@ -16,12 +16,6 @@ stdio.h
 sys/stat.h
 -
 
-/home/frias/Documents/SistemasDistribuidos/Disco.cpp
-Disco.h
-/home/frias/Documents/SistemasDistribuidos/Disco.h
-Nodo.h
-/home/frias/Documents/SistemasDistribuidos/Nodo.h
-
 /home/frias/Documents/SistemasDistribuidos/Disco.h
 Arbol.h
 /home/frias/Documents/SistemasDistribuidos/Arbol.h
@@ -53,6 +47,12 @@ iostream
 -
 sys/stat.h
 -
+
+/home/frias/Documents/SistemasDistribuidos/Slave.cpp
+Slave.h
+/home/frias/Documents/SistemasDistribuidos/Slave.h
+Nodo.h
+/home/frias/Documents/SistemasDistribuidos/Nodo.h
 
 /home/frias/Documents/SistemasDistribuidos/Slave.h
 Arbol.h

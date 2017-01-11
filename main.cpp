@@ -17,7 +17,7 @@ typedef enum tipoMensaje
 	format = 0,
 	upload,
 	download,
-	exit
+	salida
 
 }tipoMensaje;
 
@@ -32,6 +32,7 @@ void enviaMensaje(int numslaves, tipoMensaje msg)
 
 void master(int numSlaves)
 {
+	cout << "Hola soy el master" << endl;
 	Arbol* nuevoArbol = new Arbol();
 	Terminal* terminal = new Terminal();
 	Disco* disco = new Disco(numSlaves - 1);
@@ -41,107 +42,107 @@ void master(int numSlaves)
 	tipoMensaje msg;
 	bool salir = false;
 	int tam = 0;
-	string comando;
-	
 
-	disco->format(numSlaves - 1, 32000);
-
-	terminal->upload(nuevoArbol,"adiosBleh.txt",disco);
-
-	
 	while(!salir){
+		cout << "Introduce tu comando: " << endl;
+		string comando;
 		string nombre;
 		cin >> comando;
 
-		if(strcmp(comando, "format") == 0)
+		if(strcmp(comando.c_str(), "format") == 0)
 		{
 			int size = 0;
-			msg = format;
-			enviaMensaje(numSlaves,msg);
 			while(size <= 0){
 				cout << "Introduce size de disco: ";
 				cin >> size;
 			}
+			msg = format;
+			enviaMensaje(numSlaves,msg);
 			disco->format(numSlaves - 1, size);
 		} 
-		else if (strcmp(comando, "mkdir") == 0)
+		else if (strcmp(comando.c_str(), "mkdir") == 0)
 		{
-			while(nombre.strlen() == 0){
+			while(nombre.size() == 0){
 				cout << "Introduce nombre del nuevo directorio: ";
 				cin >> nombre;
 			}
 			terminal->mkdir(nombre, nuevoArbol);
 		}
-		else if (strcmp(comando, "rmdir") == 0)
+		else if (strcmp(comando.c_str(), "rmdir") == 0)
 		{
-			while(nombre.strlen() == 0){
+			while(nombre.size() == 0){
 				cout << "Introduce nombre del directorio a eliminar: ";
 				cin >> nombre;
 			}
 			terminal->rmdir(nombre, nuevoArbol);
 		}
-		else if (strcmp(comando, "rm") == 0)
+		else if (strcmp(comando.c_str(), "rm") == 0)
 		{
-			while(nombre.strlen() == 0){
+			while(nombre.size() == 0){
 				cout << "Introduce nombre del archivo a eliminar: ";
 				cin >> nombre;
 			}
 			terminal->rm(nombre, nuevoArbol);
 		}
-		else if (strcmp(comando, "ls") == 0)
+		else if (strcmp(comando.c_str(), "ls") == 0)
 		{
 			terminal->ls(nuevoArbol);
 		}
-		else if (strcmp(comando, "pwd") == 0)
+		else if (strcmp(comando.c_str(), "pwd") == 0)
 		{
 			terminal->pwd(nuevoArbol);
 		}
-		else if (strcmp(comando, "cd") == 0)
+		else if (strcmp(comando.c_str(), "cd") == 0)
 		{
-			while(nombre.strlen() == 0){
+			while(nombre.size() == 0){
 				cout << "Introduce nombre del directorio: ";
 				cin >> nombre;
 			}
 			terminal->cd(nuevoArbol, nombre);
 		}
-		else if (strcmp(comando, "mv") == 0)
+		else if (strcmp(comando.c_str(), "mv") == 0)
 		{
 			string nombreSustituir;
-			while(nombre.strlen() == 0){
+			while(nombreSustituir.size() == 0){
 				cout << "Introduce nombre a sustituir: ";
 				cin >> nombreSustituir;
 			}
 
+			while(nombre.size() == 0){
+				cout << "Introduce nuevo nombre: ";
+				cin >> nombre;
+			}
+
 			terminal->mv(nombre, nombreSustituir, nuevoArbol);
 		}
-		else if (strcmp(comando, "upload") == 0)
+		else if (strcmp(comando.c_str(), "upload") == 0)
 		{
-			while(nombre.strlen() == 0){
+			while(nombre.size() == 0){
 				cout << "Introduce nombre del archivo a subir: ";
 				cin >> nombre;
 			}
 
 			terminal->upload(nuevoArbol, nombre, disco);
 		}
-		else if (strcmp(comando, "download") == 0)
+		else if (strcmp(comando.c_str(), "download") == 0)
 		{
-			while(nombre.strlen() == 0){
+			while(nombre.size() == 0){
 				cout << "Introduce nombre del archivo a descargar: ";
 				cin >> nombre;
 			}
 			
 			terminal->download(nuevoArbol, nombre, disco);
 		}
-		else if (strcmp(comando, "exit") == 0)
+		else if (strcmp(comando.c_str(), "exit") == 0)
 		{
-			msg = salir;
-			enviaMensaje(numSlaves,msg);
-
 			salir = true;
+
+			msg = salida;
+			enviaMensaje(numSlaves,msg);
 
 			terminal->exit(nuevoArbol);
 		}
-		else if (strcmp(comando, "help") == 0)
+		else if (strcmp(comando.c_str(), "help") == 0)
 		{
 			//TODO: Instrucciones
 		}
@@ -149,8 +150,8 @@ void master(int numSlaves)
 		{
 			cout << "Ese comando no existe." << endl;
 		}
-
 	}
+	
 	
 	delete nuevoArbol;
 	delete disco;
@@ -160,17 +161,18 @@ void master(int numSlaves)
 
 void slave()
 {
+	cout << "Hola soy un esclavo" << endl;
 	Slave* slave = new Slave();
 
 	char* datos = (char*) calloc(BLOQUE, sizeof(char));
 	MPI_Status status;
 	bool salir = false;
-	tipoMensaje msg;
 	int tam, bloque, numeroDisco;
 
 	while(!salir)
 	{
-		MPI_Recv(&msg, sizeof(tipomensaje), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+		tipoMensaje msg;
+		MPI_Recv(&msg, sizeof(tipoMensaje), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 
 		switch(msg)
 		{
@@ -178,10 +180,10 @@ void slave()
 				MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 				MPI_Recv(&numeroDisco, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 				slave->format(numeroDisco,tam);
-				printf("Recibido format: %d\n", tam);
 			break;
 
 			case download:
+				cout << "Recibido download" << endl;
 				MPI_Recv(&numeroDisco, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 				MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 				MPI_Recv(&bloque, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
@@ -192,11 +194,12 @@ void slave()
 				MPI_Recv(&numeroDisco, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 				MPI_Recv(&tam, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
 				MPI_Recv(&bloque, sizeof(int), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
-				MPI_Recv(&datos, sizeof(BLOQUE), MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+				MPI_Recv(datos, sizeof(char) * BLOQUE, MPI_BYTE, 0, MPI_ANY_TAG, MPI_COMM_WORLD,&status);
+
 				slave->writeBlock(numeroDisco,tam,bloque,datos);
 			break;
 
-			case exit:
+			case salida:
 				salir = true;
 			break;
 

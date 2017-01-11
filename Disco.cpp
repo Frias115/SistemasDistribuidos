@@ -9,7 +9,7 @@ typedef enum tipoMensaje
 	format = 0,
 	upload,
 	download,
-	exit
+	salida
 
 }tipoMensaje;
 
@@ -85,11 +85,11 @@ void Disco::writeBlock(char* datos, int cantidad, int idBloque) {
 	MPI_Send(&msg, sizeof(tipoMensaje), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 
 	// Envio numeroDisco, cantidad, numeroBloque, datos
-
 	MPI_Send(&numeroDisco,  sizeof(int) , MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&cantidad, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(&numeroBloque, sizeof(int), MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
 	MPI_Send(datos, sizeof(char) * BLOQUE, MPI_BYTE , numeroDisco +1, 0, MPI_COMM_WORLD);
+
 
 
 }
