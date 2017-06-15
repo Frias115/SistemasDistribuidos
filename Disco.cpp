@@ -134,7 +134,7 @@ void Disco::readFile(Nodo* nodo){
 void Disco::readBlock(char* datos,int cantidad,int idBloque){
 
 	int numeroDisco = findDisco(idBloque,numeroDiscos);
-	int numeroBloque = findSectorDelDisco(idBloque,numeroBloque);
+	int numeroBloque = findSectorDelDisco(idBloque,numeroDiscos);
 
 	// Envio un msg para que el disco que necesito espere los datos
 

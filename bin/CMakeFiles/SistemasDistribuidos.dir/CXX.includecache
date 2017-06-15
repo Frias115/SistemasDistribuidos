@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/frias/Documents/SistemasDistribuidos/Arbol.cpp
+Arbol.h
+/home/frias/Documents/SistemasDistribuidos/Arbol.h
+
 /home/frias/Documents/SistemasDistribuidos/Arbol.h
 Nodo.h
 /home/frias/Documents/SistemasDistribuidos/Nodo.h
@@ -15,6 +19,12 @@ stdio.h
 -
 sys/stat.h
 -
+
+/home/frias/Documents/SistemasDistribuidos/Disco.cpp
+Disco.h
+/home/frias/Documents/SistemasDistribuidos/Disco.h
+Nodo.h
+/home/frias/Documents/SistemasDistribuidos/Nodo.h
 
 /home/frias/Documents/SistemasDistribuidos/Disco.h
 Arbol.h
@@ -37,6 +47,10 @@ fstream
 -
 stdlib.h
 -
+
+/home/frias/Documents/SistemasDistribuidos/Nodo.cpp
+Nodo.h
+/home/frias/Documents/SistemasDistribuidos/Nodo.h
 
 /home/frias/Documents/SistemasDistribuidos/Nodo.h
 list
@@ -75,6 +89,20 @@ fstream
 -
 stdlib.h
 -
+
+/home/frias/Documents/SistemasDistribuidos/Terminal.cpp
+Terminal.h
+/home/frias/Documents/SistemasDistribuidos/Terminal.h
+stdio.h
+-
+stdlib.h
+-
+stdio.h
+-
+stdlib.h
+-
+mpi.h
+/home/frias/Documents/SistemasDistribuidos/mpi.h
 
 /home/frias/Documents/SistemasDistribuidos/Terminal.h
 Arbol.h

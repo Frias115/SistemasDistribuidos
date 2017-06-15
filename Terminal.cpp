@@ -447,6 +447,14 @@ void Terminal::upload(Arbol* elArbol,string nombreArchivo,Disco* disco) {
 			cout << "Escribo el archivo en disco" << endl;
 			disco->writeFile(nombreArchivo, aux);
 		}
+		else
+		{
+			cout << "No se ha encontrado el archivo a subir." << endl;
+		}
+	}
+	else
+	{
+		cout << "Ya existe un archivo con ese nombre." << endl;
 	}
 
 }
