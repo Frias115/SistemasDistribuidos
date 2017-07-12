@@ -37,7 +37,7 @@ void master(int numSlaves)
 	Terminal* terminal = new Terminal();
 	Disco* disco = new Disco(numSlaves - 1);
 
-	//nuevoArbol = terminal->cargar();
+	nuevoArbol = terminal->cargar();
 
 	tipoMensaje msg;
 	bool salir = false;

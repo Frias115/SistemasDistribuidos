@@ -1,5 +1,4 @@
--np 1 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
--np 1 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
--np 1 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
--np 1 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
--np 1 -host localhost /home/frias/Documents/SistemasDistribuidos/bin/SistemasDistribuidos
+-np 1 --hostfile hostfile -host localhost /home/ubuntu/SistemasDistribuidos/bin/SistemasDistribuidos
+-np 2 --hostfile hostfile -host 172.31.12.232 /home/ubuntu/SistemasDistribuidos
+-np 2 --hostfile hostfile -host 172.31.9.242 /home/ubuntu/SistemasDistribuidos
+

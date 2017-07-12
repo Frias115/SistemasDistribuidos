@@ -23,7 +23,7 @@ void Disco::buscarSectoresLibres(int numeroBloquesNecesarios,Nodo* nodo) {
 	int counter = 0;
 	FILE* sectoresLibres = fopen("sectoreslibres.dat","r+");
 	//tamano correcto de sectoresLibres
-	for(int i=0;i<32000*numeroDiscos;i++){
+	for(int i=0;i<(32000/BLOQUE)*numeroDiscos;i++){
 
 		fread(&bloqueValido,sizeof(bool),1,sectoresLibres);
 		if(bloqueValido){
@@ -181,7 +181,7 @@ void Disco::format(int numeroDiscos,int size){
 
 	FILE* sectoresLibres = fopen("sectoreslibres.dat","w");
 	bool booleano = true;
-	for(int i=0;i<=size*numeroDiscos;i++) {
+	for(int i=0;i<=(size/BLOQUE)*numeroDiscos;i++) {
 		fwrite(&booleano, sizeof(bool), 1, sectoresLibres);
 	}
 	fclose(sectoresLibres);
